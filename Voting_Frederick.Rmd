@@ -16,14 +16,14 @@ library(janitor)
 #Import data
 ```{r}
 
-general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
+general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/katelynn-winebrenner/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
   clean_names()
 
 
-general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE.csv") |> 
+general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/katelynn-winebrenner/data/GENERAL_11PG24_Prov_CVR_SBE.csv") |> 
   clean_names()
 
-primary <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/PRIMARY_11PP24_Prov_CVR_SBE.csv") |> 
+primary <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/katelynn-winebrenner/data/PRIMARY_11PP24_Prov_CVR_SBE.csv") |> 
   clean_names()
 
 ```
