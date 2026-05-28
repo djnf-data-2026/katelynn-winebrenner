@@ -1,10 +1,20 @@
 ---
 title: "Voting-Frederick"
 author: "Wells"
-date: "2026-05-19"
+date: "2026-05-28"
 output: html_document
 ---
-We talked with Katelynn when she visited us about a project looking at election data.
+# Frederick County voting analysis
+
+You have four folders of Frederick County election data to conduct an analysis of the outcomes of the county council, school board and county executive races: 2018 results, 2022 cast vote record; 2022 results; 2024 cast vote records.; council district and election boundaries.
+
+We are starting with the 2024 results for general election and primary election.
+The plan is to get a workflow down to produce a map and some charts that describe top Republican and Democratic precincts for the county council, school board and county executive races.
+And see if there was any change from the primary to the general election and examine the disparity in voting by political party for national versus local offices.
+Then compare those margins of victory to the presidential and senate races. 
+
+Hopefully, you will be able to compare these 2024 results to the 2022 races, but that comparison will be problematic since non-presidential years lack the same turnout
+
 
 ```{r}
 library(tidyverse)
@@ -16,14 +26,17 @@ library(janitor)
 #Import data
 ```{r}
 
-general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/katelynn-winebrenner/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
+general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
   clean_names()
 
 
-general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/katelynn-winebrenner/data/GENERAL_11PG24_Prov_CVR_SBE.csv") |> 
+general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE.csv") |> 
   clean_names()
 
-primary <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/katelynn-winebrenner/data/PRIMARY_11PP24_Prov_CVR_SBE.csv") |> 
+#the two general files from 2024 should be combined
+general <- rbind(general1, general2)
+
+primary <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/PRIMARY_11PP24_Prov_CVR_SBE.csv") |> 
   clean_names()
 
 ```
@@ -124,6 +137,8 @@ top_wide |>
 #Notes only - 
 
 # Wrangling to get it into R
+
+Notes on how we processed the data from .xlsx into R
 
 #GENERAL_11PG24_Prov_CVR_SBE - 1
 ```{r}
