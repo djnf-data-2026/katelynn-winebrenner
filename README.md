@@ -45,3 +45,6 @@ Monday, June 1, 11:59 p.m. Draft a story pitch memo. A minimum of 400 words, bui
 Wednesday, June 3, 11:59 p.m. Second draft of story pitch memos due. A minimum of 600 words, this will build on Monday’s work. It will include at least one graphic, building on the Tuesday graphics workshop, and some summary data analysis, building on the data workshops since Sunday. This pitch should include summary tables, basic analysis, questions, and a discussion of potential holes. The best pitches will cover two topics and have a rendered page from your GitHub account. Submit as an R Markdown document, providing a link to your GitHub account. Email links to Wells: robwells@umd.edu
 
 Saturday, June 6, 9 a.m. Present your story pitch to the group. This will be a webpage rendered from your GitHub account that includes at least three graphics, several summary tables, and a written analysis. Entry level interns have the option of presenting slides. Two separate story pitches will be presented, along with questions and a discussion of potential holes. Email links to Wells: robwells@umd.edu
+
+
+It works
