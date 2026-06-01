@@ -9,8 +9,11 @@ output: html_document
 You have four folders of Frederick County election data to conduct an analysis of the outcomes of the county council, school board and county executive races: 2018 results, 2022 cast vote record; 2022 results; 2024 cast vote records.; council district and election boundaries.
 
 We are starting with the 2024 results for general election and primary election.
-The plan is to get a workflow down to produce a map and some charts that describe top Republican and Democratic precincts for the county council, school board and county executive races.
+
+The plan is to get a workflow down to produce a *map* and some charts that describe top Republican and Democratic precincts for the county council, school board and county executive races.
+
 And see if there was any change from the primary to the general election and examine the disparity in voting by political party for national versus local offices.
+
 Then compare those margins of victory to the presidential and senate races. 
 
 Hopefully, you will be able to compare these 2024 results to the 2022 races, but that comparison will be problematic since non-presidential years lack the same turnout
@@ -44,7 +47,7 @@ primary <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/ref
 # Pokin around
 
 ```{r}
-precincts <- primary |> 
+primary_precincts <- primary |> 
   group_by(precinct) |> 
   count()
 
@@ -54,7 +57,7 @@ precincts <- primary |>
 
 
 ```{r}
-top <- primary |> 
+primary_top <- primary |> 
   group_by(precinct) |> 
   count(
     dem_president_of_the_united_states_6_500001630106, 
@@ -83,7 +86,7 @@ top <- primary |>
 Wider
 ```{r}
 
-top_wide <- primary |> 
+primary_top_wide <- primary |> 
   group_by(precinct) |> 
   count(
     dem_president_of_the_united_states_6_500001630106, 
@@ -110,7 +113,7 @@ top_wide <- primary |>
 
 Chart
 ```{r}
-top_wide |> 
+primary_top_wide |> 
   pivot_longer(
     cols = -precinct, 
     names_to = "candidate", 
@@ -134,7 +137,54 @@ top_wide |>
 ```
 
 
+
+
+
+
+#General
+```{r}
+general_precincts <- general|> 
+  group_by(precinct) |> 
+  count()
+
+
+```
+
+
+
+```{r}
+general_top <- general |> 
+  group_by(precinct) |> 
+  count(
+    president_and_vice_president_of_the_united_states_500001630
+  ) |> 
+  
+  filter(
+    president_and_vice_president_of_the_united_states_500001630 == "Harris-Walz (10007007.0003640)", 
+    president_and_vice_president_of_the_united_states_500001630 == "Trump-Vance (10007007.0000670)"
+  )|>
+   pivot_longer(
+    cols = c(
+      dem_president_of_the_united_states_6_500001630106, 
+      rep_president_of_the_united_states_6_500001630206
+    ),
+    names_to = "candidate_type",  # Changed from "precinct" to avoid clashing
+    values_to = "candidate_name", # Moves the actual name strings here
+    values_drop_na = TRUE         # Optional: Drops the messy 'NA' rows seen in your output
+  )
+  
+  
+
+
+```
+
+
+
+
+
+
 #Notes only - 
+
 
 # Wrangling to get it into R
 
@@ -164,5 +214,4 @@ primary <- read_excel("/Users/gizmofo/Library/CloudStorage/GoogleDrive-robwells@
 write_csv(primary, "../data/PRIMARY_11PP24_Prov_CVR_SBE.csv")
 ```
 
-it works
 
