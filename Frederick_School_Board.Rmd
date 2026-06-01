@@ -23,6 +23,7 @@ When first informed I had been selected for the Frederick News-Post, I remember 
 library(tidyverse)
 library(janitor)
 library(dplyr)
+library(sf)
 ```
 
 #importing, combining, cleaning data column names
@@ -58,12 +59,16 @@ combined <-union(combined, seat_three)
 
 ```
 
-##QUESTIONS why are some undervotes and some are NA? should undervote be excluded or included?
+##QUESTIONS why are some undervotes and some are NA? should undervote be excluded or included? #getting this weird message, but the code still works
 ```{r}
 precinct_vote_counts <- combined |>
    group_by(precinct, candidate)|>
    arrange(candidate)|>
-  summarize(votes=n())
+  summarize(votes=n()) |>
+  mutate(precinct= substring(precinct, 2))
+
+
+write.csv(precinct_vote_counts, "precinct_vote_counts.csv", row.names = FALSE)
 ```
 
 
@@ -71,8 +76,52 @@ precinct_vote_counts <- combined |>
 ## later create a df of candidates and their demographics/party affiliation/moms of liberty affiliation
 ```{r}
 
+f_precincts <- st_read("~/Documents/GitHub/djnf-data-2026-katelynn-winebrenner/katelynn-winebrenner/data/frederick voting precincts/Election_Precinct.geojson")|>
+  clean_names()
+
+combined_sf <- left_join(f_precincts, precinct_vote_counts, by = "precinct")
+
+
+write.csv(combined_sf, "combined_sf.csv", row.names = FALSE)
+```
+```{r}
+write.csv(combined_sf, "combined_sf.csv", row.names = FALSE)
+write.csv(black_sf, "black_sf.csv", row.names = FALSE)
+```
+
+
+
+##display by top candidates
+top candidates:
+winner:
+Jaime Brennan and Colt Morningstar Black were two of the top three vote-getters in Frederick County. Brennan stepped down as chair of the county chapter of Moms for Liberty to run for school board seat;
+
+Jaime Brennan             16.8% 	55,444 (REP/ Moms for liberty former chair)
+Janie Monier              16.7% 	54,976  (DEM)
+Colt Morningstar Black    16.2% 	53,403  (REP)
+Josh Bokee	              16.1% 	53,190. (DEM)
+Chad King Wilson Sr.	    14.8% 	48,860 (DEM)
+Veronica Lowe             12.5% 	41,200 (DEM)
+
+#QUESTION:Were the seats filled by DEMS before?
+
+
+```{r}
+
+winners <- precinct_vote_counts |>
+  group_by(precinct) |>
+  slice_max(votes, n = 1)
+
+map_data <- precinct_vote_counts |>
+  left_join(winners, by = "precinct")
+
+
+  
 
 ```
+
+
+
 
 
 
