@@ -1,0 +1,52 @@
+---
+title: "Frederick County School Board Race 2024"
+output: html_document
+date: "2026-06-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+I've been given cast vote records for Frederick County. With this, I am able to analyze voting patterns by precinct for the primary and general elections in 2024. 
+
+I can analyze, for example, how each precinct voted for the presidency versus how they voted on local elections in the same year. 
+
+When first informed I had been selected for the Frederick News-Post, I remember being told about a controversy in the last school board election that led to a conservative candidate to win one of the school board seats. 
+
+(Per my email from Karen: there was an element of controversy in that election because four Democrat-leaning candidates ran for three seats, and the local Democratic Party encouraged voters to vote for any of them, instead of focusing on three. This led to some splintering that allowed a member of a conservative candidate slate to narrowly win one of the three seats. The data analysis of voting patterns will help us understand better what happened and revisit the issue.)
+
+**Rsw comment: Let's start with this county school race
+
+##LOAD LIBRARIES
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+#importing, combining, cleaning data column names
+##QUESTIONS-- do we still think the 99,999 is suspicious? how could i confirm what the total votes casts were in the election?
+```{r}
+
+general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
+  clean_names()
+
+general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE.csv") |> 
+  clean_names()
+
+#the two general files from 2024 should be combined. they are the same sheet, one was just limited to 99,999 
+general <- rbind(general1, general2)
+
+```
+#focus on school board votes by precinct, 
+## questions: what does undervote mean?
+
+```{r}
+ general |>
+  select()
+  
+
+
+```
+
+  
