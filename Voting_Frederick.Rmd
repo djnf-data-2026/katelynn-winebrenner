@@ -151,7 +151,7 @@ general_precincts <- general|>
 ```
 
 
-
+#what does undervote mean?
 ```{r}
 general_top <- general |> 
   group_by(precinct) |> 
@@ -173,45 +173,10 @@ general_top <- general |>
     values_drop_na = TRUE         # Optional: Drops the messy 'NA' rows seen in your output
   )
   
-  
 
 
 ```
 
 
-
-
-
-
-#Notes only - 
-
-
-# Wrangling to get it into R
-
-Notes on how we processed the data from .xlsx into R
-
-#GENERAL_11PG24_Prov_CVR_SBE - 1
-```{r}
-general1 <- read_excel("/Users/gizmofo/Library/CloudStorage/GoogleDrive-robwells@umd.edu/My Drive/DJNF 2026/Katelynn Winebrenner/2024 Cast Vote Record/GENERAL_11PG24_Prov_CVR_SBE - 1.xlsx")
-
-write_csv(general1, "../data/GENERAL_11PG24_Prov_CVR_SBE_1.csv")
-```
-
-GENERAL_11PG24_Prov_CVR_SBE
-```{r}
-general2 <- read_excel("/Users/gizmofo/Library/CloudStorage/GoogleDrive-robwells@umd.edu/My Drive/DJNF 2026/Katelynn Winebrenner/2024 Cast Vote Record/GENERAL_11PG24_Prov_CVR_SBE.xlsx")
-
-
-write_csv(general2, "../data/GENERAL_11PG24_Prov_CVR_SBE.csv")
-```
-
-PRIMARY_11PP24_Prov_CVR_SBE
-```{r}
-
-primary <- read_excel("/Users/gizmofo/Library/CloudStorage/GoogleDrive-robwells@umd.edu/My Drive/DJNF 2026/Katelynn Winebrenner/2024 Cast Vote Record/PRIMARY_11PP24_Prov_CVR_SBE.xlsx")
-
-
-write_csv(primary, "../data/PRIMARY_11PP24_Prov_CVR_SBE.csv")
-```
 
 
