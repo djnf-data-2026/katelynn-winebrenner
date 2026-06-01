@@ -5,6 +5,7 @@ output: html_document
 date: "2026-05-31"
 ---
 
+*rsw comments below.
 
  This will reflect that you have read the data memo in your Google Doc folder, the guidance from your newsroom and have conducted a preliminary review of the data. This one paragraph will show you have engaged with this material and produced a story idea that could be discussed with an editor. Don't worry, you can change and refine your idea as the week goes on. This is a first step. Submit as a Google Doc or an R Markdown document. Remember to allow permission sharing for Google Docs. Email links to Wells: robwells@umd.edu
  
@@ -17,6 +18,12 @@ When first informed I had been selected for the Frederick News-Post, I remember 
 
 (Per my email from Karen: there was an element of controversy in that election because four Democrat-leaning candidates ran for three seats, and the local Democratic Party encouraged voters to vote for any of them, instead of focusing on three. This led to some splintering that allowed a member of a conservative candidate slate to narrowly win one of the three seats. The data analysis of voting patterns will help us understand better what happened and revisit the issue.)
 
+**Rsw comment: Let's start with this county school race
+
 By identifying how each precinct voted in the 2024 presidential election, I can categorize them as blue or red. I can make the same categorization based off of the school board election. Then, I can compare to see where exactly this splintering took place and its severity. Preliminary source ideas would be school board members, representatives from the democratic party and voters in the precincts that splintered (who I can identify by looking through voter data records). 
 
+**rsw comment: yes, definitely identify the splintered districts.
+
 I also think it would be interesting to compare how voting patterns shifted between primary and general elections, being that Harris and Walz ended up running in the general election, not Biden and Harris. Perhaps a comparison between how precincts might have shifted between elections as a result of that change and how they shifted for the school board elections could be interesting as well, bringing into question the Democrats false sense of security at a school board level and a national level.
+
+**rsw comment: yes, the contrast to the national results will be important.
