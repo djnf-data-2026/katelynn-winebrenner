@@ -22,6 +22,7 @@ When first informed I had been selected for the Frederick News-Post, I remember 
 ```{r}
 library(tidyverse)
 library(janitor)
+library(dplyr)
 ```
 
 #importing, combining, cleaning data column names
@@ -42,9 +43,16 @@ general <- rbind(general1, general2)
 ## questions: what does undervote mean?
 
 ```{r}
- general |>
-  select()
-  
+ general_cleaned <- general |>
+  select(cast_vote_record, precinct, ballot_style, seat_one = board_of_education_500001671, seat_two = x13, seat_three = x14)
+
+seat_one <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_one)
+seat_two <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_two)
+
+combined <- union(seat_one, seat_two)
+
+#create seat_three in the same method as above
+#use the union function to union "combined" with "Seat_three" and you will not have a data frame with the three choices of each ballot. you can use group_by(precinct) on this new data frame to do more detailed analysis
 
 
 ```
