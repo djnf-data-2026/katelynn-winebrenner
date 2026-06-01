@@ -39,7 +39,7 @@ general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/re
 general <- rbind(general1, general2)
 
 ```
-#focus on school board votes by precinct, 
+#focus on total of for each candidate by precinct, 
 ## questions: what does undervote mean?
 
 ```{r}
@@ -48,13 +48,34 @@ general <- rbind(general1, general2)
 
 seat_one <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_one)
 seat_two <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_two)
+seat_three <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_three)
 
-combined <- union(seat_one, seat_two)
+combined <- union(seat_one, seat_two,)
+combined <-union(combined, seat_three)
 
 #create seat_three in the same method as above
 #use the union function to union "combined" with "Seat_three" and you will not have a data frame with the three choices of each ballot. you can use group_by(precinct) on this new data frame to do more detailed analysis
 
+```
+
+##QUESTIONS why are some undervotes and some are NA? should undervote be excluded or included?
+```{r}
+precinct_vote_counts <- combined |>
+   group_by(precinct, candidate)|>
+   arrange(candidate)|>
+  summarize(votes=n())
+```
+
+
+#map out by precinct
+## later create a df of candidates and their demographics/party affiliation/moms of liberty affiliation
+```{r}
+
 
 ```
+
+
+
+
 
   
