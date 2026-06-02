@@ -53,7 +53,7 @@ I would like to have this done around the time of the primary on June 23. So far
 
 ## Current code
 
-```{r setup, include=FALSE}
+```{r}
 knitr::opts_chunk$set(echo = TRUE)
 #| echo: false
 #| message: false
