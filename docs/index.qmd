@@ -1,13 +1,13 @@
 ---
-title: "Hosting a GitHub Page"
-author: "Rob Wells"
-date: "5-29-2026"
+title: "Draft story memo"
+author: "Katelynn Winebrenner"
+date: "June-1-2026"
 format:
   html:
     theme: cosmo
 ---
 
-Katelynn Winebrenner katelynnwinebrenner\@gmail.com 240-362-4882 June 1, 2026
+katelynnwinebrenner\@gmail.com 240-362-4882 June 1, 2026
 
 # 2024 Frederick County School Board Election
 
