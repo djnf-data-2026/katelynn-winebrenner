@@ -7,14 +7,23 @@ format:
     theme: cosmo
 ---
 
+**RSW Comments**: Good job framing out the story. Good to see a bare bones web page rendered - now add some details. 
+
+See my comments throughout with **rsw comment**
+
+The main thing will be to generate a table and analysis from the data for that county school board race. Compare the election results with the presidential election results countywide and statewide as a rough measure of whether this board election was in or out of sync with the county.
+
+
+
 katelynnwinebrenner\@gmail.com 240-362-4882 June 1, 2026
 
 # 2024 Frederick County School Board Election
 
-In the 2024 Frederick County School Board election, the Frederick County Democratic Party endorsed four candidates for three open seats. This decision caused splintering within the party that led to conservative candidates to take two of the seats.
+In the 2024 Frederick County School Board election, the Frederick County Democratic Party endorsed four candidates for three open seats. This decision caused splintering within the party that led to **RSW COMMENT: MOMS FOR LIBERTY** conservative candidates to take two of the seats.
 
 ## Relevance
 
+**RSW COMMENT; GOOD**
 This story is relevant now because no one has mapped out these votes yet to identify where the splintering happened, and there is another upcoming school board election for the other four seats.
 
 ## Audience
@@ -22,6 +31,8 @@ This story is relevant now because no one has mapped out these votes yet to iden
 My target audience is Frederick county parents and candidates.
 
 ## Sources
+
+**RSW COMMENT; GOOD**
 
 Some people I could interview for this story would be: Frederick Democrats Chair \| Mari Lee \| (301) 898-2513 \| info\@frederickdemocrats.org Moms for Liberty Chapter Chair \| Tiffany Noble \| Tiffany.noble0820\@gmail.com Frederick County PTA President \| Najlaa Richard \| president\@frederickpta.org School board candidate Chad Wilson, Sr. (lost in 2024, running again this season)
 
@@ -41,6 +52,7 @@ Half of ‘extreme’ school board candidates targeted by Md. Democratic Party w
 
 ## Visuals
 
+**RSW COMMENT; LET'S GET THAT MAP BUILT TODAY**
 I’d like to create a chloropleth map of precincts that display where the splintering occurred. Comparing and contrasting that map to a map of 2024 election results would help contextualize these areas as leaning left or right as well.
 
 ## To learn
@@ -65,7 +77,8 @@ library(sf)
 
 #importing, combining, cleaning data column names
 ##QUESTIONS-- do we still think the 99,999 is suspicious? how could i confirm what the total votes casts were in the election?
-
+#YES I THINK IT IS SUSPICIOUS - I WOULD TOTAL THE DATA AND THEN COMPARE IT TO THE TOTALS FOUND HERE:
+#https://elections.maryland.gov/elections/archive/2024/index.html
 
 general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
   clean_names()
@@ -107,6 +120,8 @@ precinct_vote_counts <- combined |>
 
 -30-
 
+
+**RSW COMMENT: CUT THIS BELOW AND REPLACE WITH YOUR ANALYSIS OF THE SCHOOL BOARD RACE AND THEN A MAP.**
 # Hosting a GitHub Page - R Cheat Sheet
 
 This exercise will allow you to create a basic web page which will be required for the Investigate Your Community final project option.
