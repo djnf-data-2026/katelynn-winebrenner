@@ -7,6 +7,118 @@ format:
     theme: cosmo
 ---
 
+Katelynn Winebrenner katelynnwinebrenner\@gmail.com 240-362-4882 June 1, 2026
+
+# 2024 Frederick County School Board Election
+
+In the 2024 Frederick County School Board election, the Frederick County Democratic Party endorsed four candidates for three open seats. This decision caused splintering within the party that led to conservative candidates to take two of the seats.
+
+## Relevance
+
+This story is relevant now because no one has mapped out these votes yet to identify where the splintering happened, and there is another upcoming school board election for the other four seats.
+
+## Audience
+
+My target audience is Frederick county parents and candidates.
+
+## Sources
+
+Some people I could interview for this story would be: Frederick Democrats Chair \| Mari Lee \| (301) 898-2513 \| info\@frederickdemocrats.org Moms for Liberty Chapter Chair \| Tiffany Noble \| Tiffany.noble0820\@gmail.com Frederick County PTA President \| Najlaa Richard \| president\@frederickpta.org School board candidate Chad Wilson, Sr. (lost in 2024, running again this season)
+
+## Potential impact
+
+The potential impact of this story would be to reveal key areas where splintering occurred to inform candidates and voters where the discrepancies were to increase voter participation and civic engagement in these areas.
+
+## Interest
+
+This story was particularly surprising to me because it showcases the impact of partisanship within the county school board, which is technically considered nonpartisan. The extreme ideological differences between the candidates is also intriguing to me, particularly because the former Frederick County Moms of Liberty stepped down to run for a seat and won. I’m also interested in this story because it shows that, despite Frederick’s growth in recent years that have skewed its politics to the left, the conservative values in the county still remain strong.
+
+## Previous coverage
+
+From what I’ve seen, there has not been much coverage on this race in particular, other than generalized statewide coverage about the Democrats’ failures in school boards throughout the state from Maryland Matters.
+
+Half of ‘extreme’ school board candidates targeted by Md. Democratic Party win their races - Maryland Matters Md. Democratic Party targets 'extreme candidates ' in local school board races - Maryland Matters
+
+## Visuals
+
+I’d like to create a chloropleth map of precincts that display where the splintering occurred. Comparing and contrasting that map to a map of 2024 election results would help contextualize these areas as leaning left or right as well.
+
+## To learn
+
+As for other information still to gather, I need to do more research on the previous election members, why those seats were open and what the 2024 campaign season was like. I’d also like to research what kind of decisions or changes the new conservative school board members have made since being elected to office and what new candidates are saying about them.
+
+## To do and expected completion
+
+I would like to have this done around the time of the primary on June 23. So far, I’ve already organized the vote cast records by precinct and candidate. I still have to display that visually and do the 2024 presidential election analysis to identify key geographic areas. Interviews shouldn’t take very long to set up. I would also like to try to talk to some regular Frederick County parents, which could be a little more difficult as a newcomer.
+
+## Current code
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+#| echo: false
+#| message: false
+#| paged-print: false
+library(tidyverse)
+library(janitor)
+library(dplyr)
+library(sf)
+
+#importing, combining, cleaning data column names
+##QUESTIONS-- do we still think the 99,999 is suspicious? how could i confirm what the total votes casts were in the election?
+
+
+general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
+  clean_names()
+
+general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE.csv") |> 
+  clean_names()
+
+#the two general files from 2024 should be combined. they are the same sheet, one was just limited to 99,999 
+general <- rbind(general1, general2)
+
+
+#focus on total of for each candidate by precinct, 
+## questions: what does undervote mean?
+#create seat_three in the same method as above
+#use the union function to union "combined" with "Seat_three" and you will not have a data frame with the three choices of each ballot. you can use group_by(precinct) on this new data frame to do more detailed analysis
+
+ general_cleaned <- general |>
+  select(cast_vote_record, precinct, ballot_style, seat_one = board_of_education_500001671, seat_two = x13, seat_three = x14)
+
+seat_one <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_one)
+seat_two <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_two)
+seat_three <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_three)
+
+combined <- union(seat_one, seat_two,)
+combined <-union(combined, seat_three)
+
+
+
+
+##QUESTIONS why are some undervotes and some are NA? should undervote be excluded or included? #getting this weird message, but the code still works
+
+precinct_vote_counts <- combined |>
+   group_by(precinct, candidate)|>
+   arrange(candidate)|>
+  summarize(votes=n()) |>
+  mutate(precinct= substring(precinct, 2))
+
+
+write.csv(precinct_vote_counts, "precinct_vote_counts.csv", row.names = FALSE)
+
+
+
+#map out by precinct
+## later create a df of candidates and their demographics/party affiliation/moms of liberty affiliation
+
+
+f_precincts <- st_read("~/Documents/GitHub/djnf-data-2026-katelynn-winebrenner/katelynn-winebrenner/data/frederick voting precincts/Election_Precinct.geojson")|>
+  clean_names()
+
+```
+
+-30-
+
 # Hosting a GitHub Page - R Cheat Sheet
 
 This exercise will allow you to create a basic web page which will be required for the Investigate Your Community final project option.
