@@ -54,7 +54,7 @@ I would like to have this done around the time of the primary on June 23. So far
 ## Current code
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 #| echo: false
 #| message: false
 #| paged-print: false
@@ -102,18 +102,6 @@ precinct_vote_counts <- combined |>
    arrange(candidate)|>
   summarize(votes=n()) |>
   mutate(precinct= substring(precinct, 2))
-
-
-write.csv(precinct_vote_counts, "precinct_vote_counts.csv", row.names = FALSE)
-
-
-
-#map out by precinct
-## later create a df of candidates and their demographics/party affiliation/moms of liberty affiliation
-
-
-f_precincts <- st_read("~/Documents/GitHub/djnf-data-2026-katelynn-winebrenner/katelynn-winebrenner/data/frederick voting precincts/Election_Precinct.geojson")|>
-  clean_names()
 
 ```
 
