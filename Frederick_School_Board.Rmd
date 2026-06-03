@@ -28,7 +28,6 @@ library(tidyr)
 ```
 
 #importing, combining, cleaning data column names
-##QUESTIONS-- do we still think the 99,999 is suspicious? how could i confirm what the total votes casts were in the election?
 ```{r}
 
 general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
@@ -42,9 +41,6 @@ general <- rbind(general1, general2)
 
 ```
 #focus on total of for each candidate by precinct, 
-## questions: what does undervote mean?
-#create seat_three in the same method as above
-#use the union function to union "combined" with "Seat_three" and you will not have a data frame with the three choices of each ballot. you can use group_by(precinct) on this new data frame to do more detailed analysis
 
 ```{r}
  general_cleaned <- general |>
@@ -70,7 +66,7 @@ precinct_vote_counts <- combined |>
   mutate(precinct= substring(precinct, 2))|>
   filter(
     !is.na(candidate),
-    !candidate %in% c("undervote", "overvote", "or write-in:")
+    !candidate %in% c("undervote", "overvote", "or write-in:") #questionable
   ) |>
   group_by(precinct) |>
   arrange(desc(votes), .by_group = TRUE) |>
@@ -87,14 +83,44 @@ precinct_vote_wide <- precinct_vote_counts |>
     across(
       starts_with("candidate"),
       ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))
-    )
-  )
-  
+    ))
 
-write.csv(precinct_vote_wide, "precinct_vote_wide.csv", row.names = FALSE)
+  write.csv(precinct_vote_wide, "precinct_vote_wide.csv", row.names = FALSE)
 
 
+  #create a map to represent the percent of voters per precinct who voted for rep-backed candidates versus dem-backed candidates— easier to compare with kamala v trump
 
+
+vote_percent_board <- precinct_vote_counts |>
+  group_by(precinct)|>
+  mutate(
+    across(
+            starts_with("candidate"),
+               ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))),
+    party =
+          case_when(
+              candidate == "Jaime Kiersten Brennan" ~ "*",
+              candidate == "Colt Morningstar Black" ~ "*",
+              candidate == "Janie Monier" ~ "^",
+              candidate == "Josh Bokee" ~ "^",
+              candidate == "Chad King Wilson, Sr." ~ "^",
+              candidate == "Veronica D. Lowe"~ "^"))|>
+        pivot_wider(
+            names_from = rank,
+            values_from = c(candidate, votes, party),
+            names_glue = "{.value}_{rank}")|>
+      mutate(
+           total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5 + votes_6,
+           percent_votes_1 = round((votes_1/total_votes)*100),
+           percent_votes_2 = round((votes_2/total_votes)*100),
+           percent_votes_3 = round((votes_3/total_votes)*100),
+           percent_votes_4 = round((votes_4/total_votes)*100),
+           percent_votes_5 = round((votes_5/total_votes)*100),
+           percent_votes_6 = round((votes_6/total_votes)*100)
+     
+     )
+
+  write.csv(vote_percent_board, "vote_percent.csv", row.names = FALSE)
 
 
 ```
@@ -113,8 +139,7 @@ combined_sf <- left_join(f_precincts, precinct_vote_counts, by = "precinct")
 write.csv(combined_sf, "combined_sf.csv", row.names = FALSE)
 ```
 ```{r}
-write.csv(combined_sf, "combined_sf.csv", row.names = FALSE)
-write.csv(black_sf, "black_sf.csv", row.names = FALSE)
+
 ```
 
 
@@ -133,17 +158,44 @@ Veronica Lowe             12.5% 	41,200 (DEM)
 
 #QUESTION:Were the seats filled by DEMS before?
 
-
+NOW PRECINCT MAP BY PRESIDENTIAL RESULTS
 ```{r}
-
-winners <- precinct_vote_counts |>
+general_president_clean <- general|>
+  select(precinct, president=president_and_vice_president_of_the_united_states_500001630)|>
+  group_by(precinct, president)|>
+     arrange(president)|>
+  summarize(votes=n()) |>
+  mutate(precinct= substring(precinct, 2))|>
+  filter(
+    !is.na(president),
+    !president %in% c("undervote", "overvote", "or write-in:") #questionable
+  ) |>
   group_by(precinct) |>
-  slice_max(votes, n = 1)
-
-map_data <- precinct_vote_counts |>
-  left_join(winners, by = "precinct")
-
+  arrange(desc(votes), .by_group = TRUE) |>
+  mutate(rank = row_number()) |>
+  ungroup()|>
+  mutate(
+    across(
+            starts_with("president"),
+               ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))))|>
+  pivot_wider(
+    names_from = rank,
+    values_from = c(president, votes),
+  names_glue = "{.value}_{rank}")|>
+      mutate(
+           total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5,
+           percent_votes_1 = round((votes_1/total_votes)*100),
+           percent_votes_2 = round((votes_2/total_votes)*100),
+           percent_votes_3 = round((votes_3/total_votes)*100),
+           percent_votes_4 = round((votes_4/total_votes)*100),
+           percent_votes_5 = round((votes_5/total_votes)*100),
+           
+     
+     )
   
+
+write.csv(general_president_clean, "president_vote.csv", row.names = FALSE)
+
 
 ```
 

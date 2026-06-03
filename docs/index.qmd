@@ -7,32 +7,180 @@ format:
     theme: cosmo
 ---
 
-**RSW Comments**: Good job framing out the story. Good to see a bare bones web page rendered - now add some details. 
-
-See my comments throughout with **rsw comment**
-
-The main thing will be to generate a table and analysis from the data for that county school board race. Compare the election results with the presidential election results countywide and statewide as a rough measure of whether this board election was in or out of sync with the county.
-
-
-
 katelynnwinebrenner\@gmail.com 240-362-4882 June 1, 2026
 
 # 2024 Frederick County School Board Election
 
-In the 2024 Frederick County School Board election, the Frederick County Democratic Party endorsed four candidates for three open seats. This decision caused splintering within the party that led to **RSW COMMENT: MOMS FOR LIBERTY** conservative candidates to take two of the seats.
+In the 2024 Frederick County School Board election, the Frederick County Democratic Party endorsed four candidates for three open seats. This decision caused splintering within the party that led to conservative **candidates backed by Moms for Liberty** to take two of the seats.
+
+IDENTIFY CANDIDATES BACKED BY BLUE OR RED
+
+<iframe title="Democrat-backed school board candidates splintered precinct votes in 2024" aria-label="Choropleth map" id="datawrapper-chart-S5pgh" src="https://datawrapper.dwcdn.net/S5pgh/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
+
+</iframe>
+
+```{=html}
+<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+```
+
+<iframe title="Harris took Frederick County, but Trump wasn&#39;t far behind" aria-label="Choropleth map" id="datawrapper-chart-bakfo" src="https://datawrapper.dwcdn.net/bakfo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
+
+</iframe>
 
 ## Relevance
 
-**RSW COMMENT; GOOD**
 This story is relevant now because no one has mapped out these votes yet to identify where the splintering happened, and there is another upcoming school board election for the other four seats.
+
+TABLE
+
+```{r setup, include=FALSE}
+```
+
+```{r}
+#| include: false
+library(tidyverse)
+library(janitor)
+library(dplyr)
+library(sf)
+library(tidyr)
+```
+
+```{r}
+#| include: false
+
+general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
+  clean_names()
+
+general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE.csv") |> 
+  clean_names()
+
+#the two general files from 2024 should be combined. they are the same sheet, one was just limited to 99,999 
+general <- rbind(general1, general2)
+
+```
+
+```{r}
+#| include: false
+ general_cleaned <- general |>
+  select(cast_vote_record, precinct, ballot_style, seat_one = board_of_education_500001671, seat_two = x13, seat_three = x14)
+
+seat_one <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_one)
+seat_two <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_two)
+seat_three <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_three)
+
+combined <- union(seat_one, seat_two,)
+combined <-union(combined, seat_three)
+
+
+
+```
+
+```{r}
+#| echo: true
+precinct_vote_counts <- combined |>
+   group_by(precinct, candidate)|>
+   arrange(candidate)|>
+  summarize(votes=n()) |>
+  mutate(precinct= substring(precinct, 2))|>
+  filter(
+    !is.na(candidate),
+    !candidate %in% c("undervote", "overvote", "or write-in:") #questionable
+  ) |>
+  group_by(precinct) |>
+  arrange(desc(votes), .by_group = TRUE) |>
+  mutate(rank = row_number()) |>
+  ungroup()
+
+
+precinct_vote_wide <- precinct_vote_counts |>
+  pivot_wider(
+    names_from = rank,
+    values_from = c(candidate, votes),
+  names_glue = "{.value}_{rank}")|>
+ mutate(
+    across(
+      starts_with("candidate"),
+      ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))
+    ))
+
+  #create a map to represent the percent of voters per precinct who voted for rep-backed candidates versus dem-backed candidates— easier to compare with kamala v trump
+
+vote_percent_board <- precinct_vote_counts |>
+  group_by(precinct)|>
+  mutate(
+    across(
+            starts_with("candidate"),
+               ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))),
+    party =
+          case_when(
+              candidate == "Jaime Kiersten Brennan" ~ "*",
+              candidate == "Colt Morningstar Black" ~ "*",
+              candidate == "Janie Monier" ~ "^",
+              candidate == "Josh Bokee" ~ "^",
+              candidate == "Chad King Wilson, Sr." ~ "^",
+              candidate == "Veronica D. Lowe"~ "^"))|>
+        pivot_wider(
+            names_from = rank,
+            values_from = c(candidate, votes, party),
+            names_glue = "{.value}_{rank}")|>
+      mutate(
+           total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5 + votes_6,
+           percent_votes_1 = round((votes_1/total_votes)*100),
+           percent_votes_2 = round((votes_2/total_votes)*100),
+           percent_votes_3 = round((votes_3/total_votes)*100),
+           percent_votes_4 = round((votes_4/total_votes)*100),
+           percent_votes_5 = round((votes_5/total_votes)*100),
+           percent_votes_6 = round((votes_6/total_votes)*100)
+     
+     )|>
+    head()
+
+
+```
+
+Presidential election results by precinct
+
+```{r}
+#| echo: true
+general_president_clean <- general|>
+  select(precinct, president=president_and_vice_president_of_the_united_states_500001630)|>
+  group_by(precinct, president)|>
+     arrange(president)|>
+  summarize(votes=n()) |>
+  mutate(precinct= substring(precinct, 2))|>
+  filter(
+    !is.na(president),
+    !president %in% c("undervote", "overvote", "or write-in:") #questionable
+  ) |>
+  group_by(precinct) |>
+  arrange(desc(votes), .by_group = TRUE) |>
+  mutate(rank = row_number()) |>
+  ungroup()|>
+  mutate(
+    across(
+            starts_with("president"),
+               ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))))|>
+  pivot_wider(
+    names_from = rank,
+    values_from = c(president, votes),
+  names_glue = "{.value}_{rank}")|>
+      mutate(
+           total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5,
+           percent_votes_1 = round((votes_1/total_votes)*100),
+           percent_votes_2 = round((votes_2/total_votes)*100),
+           percent_votes_3 = round((votes_3/total_votes)*100),
+           percent_votes_4 = round((votes_4/total_votes)*100),
+           percent_votes_5 = round((votes_5/total_votes)*100)
+     )|>
+  head()
+
+```
 
 ## Audience
 
 My target audience is Frederick county parents and candidates.
 
 ## Sources
-
-**RSW COMMENT; GOOD**
 
 Some people I could interview for this story would be: Frederick Democrats Chair \| Mari Lee \| (301) 898-2513 \| info\@frederickdemocrats.org Moms for Liberty Chapter Chair \| Tiffany Noble \| Tiffany.noble0820\@gmail.com Frederick County PTA President \| Najlaa Richard \| president\@frederickpta.org School board candidate Chad Wilson, Sr. (lost in 2024, running again this season)
 
@@ -52,8 +200,7 @@ Half of ‘extreme’ school board candidates targeted by Md. Democratic Party w
 
 ## Visuals
 
-**RSW COMMENT; LET'S GET THAT MAP BUILT TODAY**
-I’d like to create a chloropleth map of precincts that display where the splintering occurred. Comparing and contrasting that map to a map of 2024 election results would help contextualize these areas as leaning left or right as well.
+**RSW COMMENT; LET'S GET THAT MAP BUILT TODAY** I’d like to create a chloropleth map of precincts that display where the splintering occurred. Comparing and contrasting that map to a map of 2024 election results would help contextualize these areas as leaning left or right as well.
 
 ## To learn
 
@@ -65,228 +212,4 @@ I would like to have this done around the time of the primary on June 23. So far
 
 ## Current code
 
-```{r}
-knitr::opts_chunk$set(echo = TRUE)
-#| echo: false
-#| message: false
-#| paged-print: false
-library(tidyverse)
-library(janitor)
-library(dplyr)
-library(sf)
-
-#importing, combining, cleaning data column names
-##QUESTIONS-- do we still think the 99,999 is suspicious? how could i confirm what the total votes casts were in the election?
-#YES I THINK IT IS SUSPICIOUS - I WOULD TOTAL THE DATA AND THEN COMPARE IT TO THE TOTALS FOUND HERE:
-#https://elections.maryland.gov/elections/archive/2024/index.html
-
-general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
-  clean_names()
-
-general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE.csv") |> 
-  clean_names()
-
-#the two general files from 2024 should be combined. they are the same sheet, one was just limited to 99,999 
-general <- rbind(general1, general2)
-
-
-#focus on total of for each candidate by precinct, 
-## questions: what does undervote mean?
-#create seat_three in the same method as above
-#use the union function to union "combined" with "Seat_three" and you will not have a data frame with the three choices of each ballot. you can use group_by(precinct) on this new data frame to do more detailed analysis
-
- general_cleaned <- general |>
-  select(cast_vote_record, precinct, ballot_style, seat_one = board_of_education_500001671, seat_two = x13, seat_three = x14)
-
-seat_one <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_one)
-seat_two <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_two)
-seat_three <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_three)
-
-combined <- union(seat_one, seat_two,)
-combined <-union(combined, seat_three)
-
-
-
-
-##QUESTIONS why are some undervotes and some are NA? should undervote be excluded or included? #getting this weird message, but the code still works
-
-precinct_vote_counts <- combined |>
-   group_by(precinct, candidate)|>
-   arrange(candidate)|>
-  summarize(votes=n()) |>
-  mutate(precinct= substring(precinct, 2))
-
-```
-
 -30-
-<<<<<<< HEAD
-=======
-
-
-**RSW COMMENT: CUT THIS BELOW AND REPLACE WITH YOUR ANALYSIS OF THE SCHOOL BOARD RACE AND THEN A MAP.**
-# Hosting a GitHub Page - R Cheat Sheet
-
-This exercise will allow you to create a basic web page which will be required for the Investigate Your Community final project option.
-
-For this exercise, you will create a page with your one paragraph story idea. You will then host it on your GitHub page.
-
-## Styled Text
-
-At the core, QMD files are text files, and they allow you to use a very lightweight "markup" language to style text, similar to html, but much less fussy.
-
-Outside of the codeblocks (the gray sections where we write code), we can style any text using standard markdown styling.
-
-This is a nice guide to styling text with markdown: [Markdown guide](https://quarto.org/docs/authoring/markdown-basics.html)
-
-We can create headings similar to html's h1 to h6 with hashtags.
-
-##### This is an h5
-
-We can create links, like this: [google](https://google.com)
-
-We can **bold** or *italic* text.
-
-We can create bulleted lists.
-
-- bullet one
-- bullet two
-- bullet three
-
-## Code blocks
-
-We can also add special code inside of code blocks -- the gray sections where we write code -- that control how they render in our html document. These output options let us do things like:
-
-- Show or hide the code when we render our html document (echo: true or false)
-- Prevent the code from actually running when we render our html document (eval: true or false)
-- Hide warnings from outputing when we render our html document (warning: true or false)
-
-There's a [full guide here](https://quarto.org/docs/computations/execution-options.html#output-options).
-
-The code below, for example, will output the text inside the print statement when rendered to html, but the actual code -- the print() function -- will be hidden.
-
-## Create your website
-
-In place of these instructions, you will paste your project one paragraph story idea into this document and any code you've developed so far.
-
-You will need to load libraries and data because rendering a page requires a full R session to execute on the code.
-
-First, create H1 headers
-
-**For example:**
-
-# Income and Vacancies of Baltimore Neighborhoods 2020
-
-## Looking at wealth inequality in Charm City
-
-```{r eval=FALSE, include=TRUE}
-
-# You will write your code in chunks but not execute the data. Use {r eval=FALSE, include=TRUE} in the header so the page will render without running the actual code.
-income_vacancy %>% 
-  ggplot(aes(x = community)) +
-  geom_point(aes(y=income_2020), color = "#64D197", stroke=5) +
-  geom_point(aes(y=vacant_2020*1000), stroke=5, color = "#FB8AE3") +
-  scale_y_continuous(
-    name = "2020 Income (Green)", limits=c(0, 62000), labels=scales::dollar_format(),
-    sec.axis = sec_axis(~./60000, name="2020 Percent Vacancies (Red)", labels = scales::percent))+
-  #scale_y_continuous(labels = scales::percent) +
-  labs(
-    title = "Income and Vacancies of Baltimore Neighborhoods 2020",
-    x = "Community",
-    caption = "source: BNIA Data - By: Parker Leipzig and Rob Wells"
-  )
-```
-
-## Set up for hosting
-
-- Create a new folder in your repository called "docs" (if one isn't there already)
-- Rename this document as "index.qmd"
-- Move "index.qmd" into the "docs" folder
-
-## Render this document as an html page
-
-- Make sure this document is named "index.qmd" and is in the "docs" folder
-- Click Render button. It will create an html version of this page, called "index.html"
-- Use GitHub Desktop to push your files to your your github repository on the web.
-- Access the URL from your Github repository.
-
-## Host html on GitHub
-
-- Go to your github repository on the web, such as https://github.com/djnf-data-2026/casey-mann
-- Click on Settings on the top right.
-- Scroll down to the Pages section of Settings.
-- Change the Branch to /docs and click save.
-
-#### To see your file hosted:
-
-- Back to your GitHub repo on the web: such as https://github.com/djnf-data-2026/casey-mann
-- Click on Settings, then Pages
-- Under GitHub Pages, you should see "Your site is live at https://djnf-data-2026.github.io/casey-mann/"
-- Click that URL
-- If it works, email it to robwells\@umd.edu
-
-## REVEL IN YOUR NERD POWERS
-
-# Part 2: Embedding Images
-
-- create a folder in your repository's main branch, call it images
-
-- find any .jpeg, .jpg or .png file and insert it into that folder.
-
-- In a QMD file, display the image as follows:
-
-\#![CAPTION FOR YOUR PHOTO](images/your_link_here.png)
-
-\#![CHATTER FOR YOUR chart](images/xl-refresher-grid_SHEETS.png)
-
-A more advanced technique controlling the width and height
-
-\#![Read the Screen](images/xl-refresher-SHEETS_screen.png){width="100%"}
-
-### Embedding code
-
-From a **Datawrapper Map**
-
-<iframe title="Small Business Reporting, Spring 2024" aria-label="Map" id="datawrapper-chart-z4bny" src="https://datawrapper.dwcdn.net/z4bny/5/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="500" data-external="1">
-
-</iframe>
-
-```{=html}
-<script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();
-</script>
-```
-
-## Embedding video
-
-### Deep Nerd Video
-
-::: {#first_steps}
-<iframe width="560" height="315" src="https://www.youtube.com/embed/TNP_unReOpw?si=CQC3cG49TShkoJOG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-
-</iframe>
-:::
-
-::: {#second_steps}
-### A great lecture on structural racism in journalism
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/DIDHbEZYFSc?si=a-KNzlQgoGjXD6VV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-
-</iframe>
-:::
-
-**Now replace these two videos with something you selected.**
-
-The embed code is in the video share feature
-
-## Instructions to embed a gif
-
-```{r text_to_columns.gif, out.width="100%", echo=FALSE}
-### Embed a GIF
-#First, download a GIF (extension will be .gif) and load it into "images" folder
-#if (knitr::is_html_output()) knitr::include_graphics("images/text_to_columns.gif")  
-
-```
-
-This is a very basic starter but it will get you to the finish line on Saturday. Good luck!
-
---30--
->>>>>>> 4aff732ec4fac281c749ca55bf5f0a7eb51fbcab

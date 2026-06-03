@@ -118,10 +118,124 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>katelynnwinebrenner@gmail.com 240-362-4882 June 1, 2026</p>
 <section id="frederick-county-school-board-election" class="level1">
 <h1>2024 Frederick County School Board Election</h1>
-<p>In the 2024 Frederick County School Board election, the Frederick County Democratic Party endorsed four candidates for three open seats. This decision caused splintering within the party that led to conservative candidates to take two of the seats.</p>
+<p>In the 2024 Frederick County School Board election, the Frederick County Democratic Party endorsed four candidates for three open seats. This decision caused splintering within the party that led to conservative <strong>candidates backed by Moms for Liberty</strong> to take two of the seats.</p>
+<p>IDENTIFY CANDIDATES BACKED BY BLUE OR RED</p>
+<iframe title="Democrat-backed school board candidates splintered precinct votes in 2024" aria-label="Choropleth map" id="datawrapper-chart-S5pgh" src="https://datawrapper.dwcdn.net/S5pgh/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="" data-external="1">
+</iframe>
+<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+<iframe title="Harris took Frederick County, but Trump wasn't far behind" aria-label="Choropleth map" id="datawrapper-chart-bakfo" src="https://datawrapper.dwcdn.net/bakfo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="" data-external="1">
+</iframe>
 <section id="relevance" class="level2">
 <h2 class="anchored" data-anchor-id="relevance">Relevance</h2>
 <p>This story is relevant now because no one has mapped out these votes yet to identify where the splintering happened, and there is another upcoming school board election for the other four seats.</p>
+<p>TABLE</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>precinct_vote_counts <span class="ot">&lt;-</span> combined <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(precinct, candidate)<span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(candidate)<span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">votes=</span><span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">precinct=</span> <span class="fu">substring</span>(precinct, <span class="dv">2</span>))<span class="sc">|&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(candidate),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>candidate <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"undervote"</span>, <span class="st">"overvote"</span>, <span class="st">"or write-in:"</span>) <span class="co">#questionable</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(precinct) <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(votes), <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has regrouped the output.
+ℹ Summaries were computed grouped by precinct and candidate.
+ℹ Output is grouped by precinct.
+ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+ℹ Use `summarise(.by = c(precinct, candidate))` for per-operation grouping
+  (`?dplyr::dplyr_by`) instead.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>precinct_vote_wide <span class="ot">&lt;-</span> precinct_vote_counts <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> rank,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="fu">c</span>(candidate, votes),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">names_glue =</span> <span class="st">"{.value}_{rank}"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">starts_with</span>(<span class="st">"candidate"</span>),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">trimws</span>(<span class="fu">gsub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s*</span><span class="sc">\\</span><span class="st">([^)]*</span><span class="sc">\\</span><span class="st">)"</span>, <span class="st">""</span>,.x))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">#create a map to represent the percent of voters per precinct who voted for rep-backed candidates versus dem-backed candidates— easier to compare with kamala v trump</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>vote_percent_board <span class="ot">&lt;-</span> precinct_vote_counts <span class="sc">|&gt;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(precinct)<span class="sc">|&gt;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            <span class="fu">starts_with</span>(<span class="st">"candidate"</span>),</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>               <span class="sc">~</span> <span class="fu">trimws</span>(<span class="fu">gsub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s*</span><span class="sc">\\</span><span class="st">([^)]*</span><span class="sc">\\</span><span class="st">)"</span>, <span class="st">""</span>,.x))),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">party =</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>          <span class="fu">case_when</span>(</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>              candidate <span class="sc">==</span> <span class="st">"Jaime Kiersten Brennan"</span> <span class="sc">~</span> <span class="st">"*"</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>              candidate <span class="sc">==</span> <span class="st">"Colt Morningstar Black"</span> <span class="sc">~</span> <span class="st">"*"</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>              candidate <span class="sc">==</span> <span class="st">"Janie Monier"</span> <span class="sc">~</span> <span class="st">"^"</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>              candidate <span class="sc">==</span> <span class="st">"Josh Bokee"</span> <span class="sc">~</span> <span class="st">"^"</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>              candidate <span class="sc">==</span> <span class="st">"Chad King Wilson, Sr."</span> <span class="sc">~</span> <span class="st">"^"</span>,</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>              candidate <span class="sc">==</span> <span class="st">"Veronica D. Lowe"</span><span class="sc">~</span> <span class="st">"^"</span>))<span class="sc">|&gt;</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="fu">pivot_wider</span>(</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>            <span class="at">names_from =</span> rank,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>            <span class="at">values_from =</span> <span class="fu">c</span>(candidate, votes, party),</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            <span class="at">names_glue =</span> <span class="st">"{.value}_{rank}"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>           <span class="at">total_votes =</span> votes_1 <span class="sc">+</span> votes_2 <span class="sc">+</span> votes_3 <span class="sc">+</span> votes_4 <span class="sc">+</span> votes_5 <span class="sc">+</span> votes_6,</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>           <span class="at">percent_votes_1 =</span> <span class="fu">round</span>((votes_1<span class="sc">/</span>total_votes)<span class="sc">*</span><span class="dv">100</span>),</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>           <span class="at">percent_votes_2 =</span> <span class="fu">round</span>((votes_2<span class="sc">/</span>total_votes)<span class="sc">*</span><span class="dv">100</span>),</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>           <span class="at">percent_votes_3 =</span> <span class="fu">round</span>((votes_3<span class="sc">/</span>total_votes)<span class="sc">*</span><span class="dv">100</span>),</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>           <span class="at">percent_votes_4 =</span> <span class="fu">round</span>((votes_4<span class="sc">/</span>total_votes)<span class="sc">*</span><span class="dv">100</span>),</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>           <span class="at">percent_votes_5 =</span> <span class="fu">round</span>((votes_5<span class="sc">/</span>total_votes)<span class="sc">*</span><span class="dv">100</span>),</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>           <span class="at">percent_votes_6 =</span> <span class="fu">round</span>((votes_6<span class="sc">/</span>total_votes)<span class="sc">*</span><span class="dv">100</span>)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>     </span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>     )<span class="sc">|&gt;</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Presidential election results by precinct</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>general_president_clean <span class="ot">&lt;-</span> general<span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(precinct, <span class="at">president=</span>president_and_vice_president_of_the_united_states_500001630)<span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(precinct, president)<span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">arrange</span>(president)<span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">votes=</span><span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">precinct=</span> <span class="fu">substring</span>(precinct, <span class="dv">2</span>))<span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(president),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>president <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"undervote"</span>, <span class="st">"overvote"</span>, <span class="st">"or write-in:"</span>) <span class="co">#questionable</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(precinct) <span class="sc">|&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(votes), <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()<span class="sc">|&gt;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>            <span class="fu">starts_with</span>(<span class="st">"president"</span>),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>               <span class="sc">~</span> <span class="fu">trimws</span>(<span class="fu">gsub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s*</span><span class="sc">\\</span><span class="st">([^)]*</span><span class="sc">\\</span><span class="st">)"</span>, <span class="st">""</span>,.x))))<span class="sc">|&gt;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> rank,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="fu">c</span>(president, votes),</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">names_glue =</span> <span class="st">"{.value}_{rank}"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>           <span class="at">total_votes =</span> votes_1 <span class="sc">+</span> votes_2 <span class="sc">+</span> votes_3 <span class="sc">+</span> votes_4 <span class="sc">+</span> votes_5,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>           <span class="at">percent_votes_1 =</span> <span class="fu">round</span>((votes_1<span class="sc">/</span>total_votes)<span class="sc">*</span><span class="dv">100</span>),</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>           <span class="at">percent_votes_2 =</span> <span class="fu">round</span>((votes_2<span class="sc">/</span>total_votes)<span class="sc">*</span><span class="dv">100</span>),</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>           <span class="at">percent_votes_3 =</span> <span class="fu">round</span>((votes_3<span class="sc">/</span>total_votes)<span class="sc">*</span><span class="dv">100</span>),</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>           <span class="at">percent_votes_4 =</span> <span class="fu">round</span>((votes_4<span class="sc">/</span>total_votes)<span class="sc">*</span><span class="dv">100</span>),</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>           <span class="at">percent_votes_5 =</span> <span class="fu">round</span>((votes_5<span class="sc">/</span>total_votes)<span class="sc">*</span><span class="dv">100</span>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>     )<span class="sc">|&gt;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has regrouped the output.
+ℹ Summaries were computed grouped by precinct and president.
+ℹ Output is grouped by precinct.
+ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+ℹ Use `summarise(.by = c(precinct, president))` for per-operation grouping
+  (`?dplyr::dplyr_by`) instead.</code></pre>
+</div>
+</div>
 </section>
 <section id="audience" class="level2">
 <h2 class="anchored" data-anchor-id="audience">Audience</h2>
@@ -146,7 +260,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="visuals" class="level2">
 <h2 class="anchored" data-anchor-id="visuals">Visuals</h2>
-<p>I’d like to create a chloropleth map of precincts that display where the splintering occurred. Comparing and contrasting that map to a map of 2024 election results would help contextualize these areas as leaning left or right as well.</p>
+<p><strong>RSW COMMENT; LET’S GET THAT MAP BUILT TODAY</strong> I’d like to create a chloropleth map of precincts that display where the splintering occurred. Comparing and contrasting that map to a map of 2024 election results would help contextualize these areas as leaning left or right as well.</p>
 </section>
 <section id="to-learn" class="level2">
 <h2 class="anchored" data-anchor-id="to-learn">To learn</h2>
@@ -158,247 +272,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="current-code" class="level2">
 <h2 class="anchored" data-anchor-id="current-code">Current code</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| paged-print: false</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.5     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'janitor'
-
-The following objects are masked from 'package:stats':
-
-    chisq.test, fisher.test</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Linking to GEOS 3.13.0, GDAL 3.8.5, PROJ 9.5.1; sf_use_s2() is TRUE</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#importing, combining, cleaning data column names</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">##QUESTIONS-- do we still think the 99,999 is suspicious? how could i confirm what the total votes casts were in the election?</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>general1 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 57282 Columns: 17
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (16): Precinct, Ballot Style, President and Vice President of the United...
-dbl  (1): Cast Vote Record
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>general2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE.csv"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 99999 Columns: 17
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (16): Precinct, Ballot Style, President and Vice President of the United...
-dbl  (1): Cast Vote Record
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#the two general files from 2024 should be combined. they are the same sheet, one was just limited to 99,999 </span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>general <span class="ot">&lt;-</span> <span class="fu">rbind</span>(general1, general2)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">#focus on total of for each candidate by precinct, </span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="do">## questions: what does undervote mean?</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#create seat_three in the same method as above</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#use the union function to union "combined" with "Seat_three" and you will not have a data frame with the three choices of each ballot. you can use group_by(precinct) on this new data frame to do more detailed analysis</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a> general_cleaned <span class="ot">&lt;-</span> general <span class="sc">|&gt;</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cast_vote_record, precinct, ballot_style, <span class="at">seat_one =</span> board_of_education_500001671, <span class="at">seat_two =</span> x13, <span class="at">seat_three =</span> x14)</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>seat_one <span class="ot">&lt;-</span> general_cleaned <span class="sc">|&gt;</span> <span class="fu">select</span>(cast_vote_record, precinct, ballot_style, <span class="at">candidate =</span> seat_one)</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>seat_two <span class="ot">&lt;-</span> general_cleaned <span class="sc">|&gt;</span> <span class="fu">select</span>(cast_vote_record, precinct, ballot_style, <span class="at">candidate =</span> seat_two)</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>seat_three <span class="ot">&lt;-</span> general_cleaned <span class="sc">|&gt;</span> <span class="fu">select</span>(cast_vote_record, precinct, ballot_style, <span class="at">candidate =</span> seat_three)</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>combined <span class="ot">&lt;-</span> <span class="fu">union</span>(seat_one, seat_two,)</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>combined <span class="ot">&lt;-</span><span class="fu">union</span>(combined, seat_three)</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="do">##QUESTIONS why are some undervotes and some are NA? should undervote be excluded or included? #getting this weird message, but the code still works</span></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>precinct_vote_counts <span class="ot">&lt;-</span> combined <span class="sc">|&gt;</span></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(precinct, candidate)<span class="sc">|&gt;</span></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(candidate)<span class="sc">|&gt;</span></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">votes=</span><span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">precinct=</span> <span class="fu">substring</span>(precinct, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`summarise()` has grouped output by 'precinct'. You can override using the
-`.groups` argument.</code></pre>
-</div>
-</div>
 <p>-30-</p>
-</section>
-</section>
-<section id="hosting-a-github-page---r-cheat-sheet" class="level1">
-<h1>Hosting a GitHub Page - R Cheat Sheet</h1>
-<p>This exercise will allow you to create a basic web page which will be required for the Investigate Your Community final project option.</p>
-<p>For this exercise, you will create a page with your one paragraph story idea. You will then host it on your GitHub page.</p>
-<section id="styled-text" class="level2">
-<h2 class="anchored" data-anchor-id="styled-text">Styled Text</h2>
-<p>At the core, QMD files are text files, and they allow you to use a very lightweight “markup” language to style text, similar to html, but much less fussy.</p>
-<p>Outside of the codeblocks (the gray sections where we write code), we can style any text using standard markdown styling.</p>
-<p>This is a nice guide to styling text with markdown: <a href="https://quarto.org/docs/authoring/markdown-basics.html">Markdown guide</a></p>
-<p>We can create headings similar to html’s h1 to h6 with hashtags.</p>
-<section id="this-is-an-h5" class="level5">
-<h5 class="anchored" data-anchor-id="this-is-an-h5">This is an h5</h5>
-<p>We can create links, like this: <a href="https://google.com">google</a></p>
-<p>We can <strong>bold</strong> or <em>italic</em> text.</p>
-<p>We can create bulleted lists.</p>
-<ul>
-<li>bullet one</li>
-<li>bullet two</li>
-<li>bullet three</li>
-</ul>
-</section>
-</section>
-<section id="code-blocks" class="level2">
-<h2 class="anchored" data-anchor-id="code-blocks">Code blocks</h2>
-<p>We can also add special code inside of code blocks – the gray sections where we write code – that control how they render in our html document. These output options let us do things like:</p>
-<ul>
-<li>Show or hide the code when we render our html document (echo: true or false)</li>
-<li>Prevent the code from actually running when we render our html document (eval: true or false)</li>
-<li>Hide warnings from outputing when we render our html document (warning: true or false)</li>
-</ul>
-<p>There’s a <a href="https://quarto.org/docs/computations/execution-options.html#output-options">full guide here</a>.</p>
-<p>The code below, for example, will output the text inside the print statement when rendered to html, but the actual code – the print() function – will be hidden.</p>
-</section>
-<section id="create-your-website" class="level2">
-<h2 class="anchored" data-anchor-id="create-your-website">Create your website</h2>
-<p>In place of these instructions, you will paste your project one paragraph story idea into this document and any code you’ve developed so far.</p>
-<p>You will need to load libraries and data because rendering a page requires a full R session to execute on the code.</p>
-<p>First, create H1 headers</p>
-<p><strong>For example:</strong></p>
-</section>
-</section>
-<section id="income-and-vacancies-of-baltimore-neighborhoods-2020" class="level1">
-<h1>Income and Vacancies of Baltimore Neighborhoods 2020</h1>
-<section id="looking-at-wealth-inequality-in-charm-city" class="level2">
-<h2 class="anchored" data-anchor-id="looking-at-wealth-inequality-in-charm-city">Looking at wealth inequality in Charm City</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You will write your code in chunks but not execute the data. Use {r eval=FALSE, include=TRUE} in the header so the page will render without running the actual code.</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>income_vacancy <span class="sc">%&gt;%</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> community)) <span class="sc">+</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y=</span>income_2020), <span class="at">color =</span> <span class="st">"#64D197"</span>, <span class="at">stroke=</span><span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y=</span>vacant_2020<span class="sc">*</span><span class="dv">1000</span>), <span class="at">stroke=</span><span class="dv">5</span>, <span class="at">color =</span> <span class="st">"#FB8AE3"</span>) <span class="sc">+</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"2020 Income (Green)"</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">62000</span>), <span class="at">labels=</span>scales<span class="sc">::</span><span class="fu">dollar_format</span>(),</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>(<span class="sc">~</span>.<span class="sc">/</span><span class="dv">60000</span>, <span class="at">name=</span><span class="st">"2020 Percent Vacancies (Red)"</span>, <span class="at">labels =</span> scales<span class="sc">::</span>percent))<span class="sc">+</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_y_continuous(labels = scales::percent) +</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Income and Vacancies of Baltimore Neighborhoods 2020"</span>,</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Community"</span>,</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"source: BNIA Data - By: Parker Leipzig and Rob Wells"</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="set-up-for-hosting" class="level2">
-<h2 class="anchored" data-anchor-id="set-up-for-hosting">Set up for hosting</h2>
-<ul>
-<li>Create a new folder in your repository called “docs” (if one isn’t there already)</li>
-<li>Rename this document as “index.qmd”</li>
-<li>Move “index.qmd” into the “docs” folder</li>
-</ul>
-</section>
-<section id="render-this-document-as-an-html-page" class="level2">
-<h2 class="anchored" data-anchor-id="render-this-document-as-an-html-page">Render this document as an html page</h2>
-<ul>
-<li>Make sure this document is named “index.qmd” and is in the “docs” folder</li>
-<li>Click Render button. It will create an html version of this page, called “index.html”</li>
-<li>Use GitHub Desktop to push your files to your your github repository on the web.</li>
-<li>Access the URL from your Github repository.</li>
-</ul>
-</section>
-<section id="host-html-on-github" class="level2">
-<h2 class="anchored" data-anchor-id="host-html-on-github">Host html on GitHub</h2>
-<ul>
-<li>Go to your github repository on the web, such as https://github.com/djnf-data-2026/casey-mann</li>
-<li>Click on Settings on the top right.</li>
-<li>Scroll down to the Pages section of Settings.</li>
-<li>Change the Branch to /docs and click save.</li>
-</ul>
-<section id="to-see-your-file-hosted" class="level4">
-<h4 class="anchored" data-anchor-id="to-see-your-file-hosted">To see your file hosted:</h4>
-<ul>
-<li>Back to your GitHub repo on the web: such as https://github.com/djnf-data-2026/casey-mann</li>
-<li>Click on Settings, then Pages</li>
-<li>Under GitHub Pages, you should see “Your site is live at https://djnf-data-2026.github.io/casey-mann/”</li>
-<li>Click that URL</li>
-<li>If it works, email it to robwells@umd.edu</li>
-</ul>
-</section>
-</section>
-<section id="revel-in-your-nerd-powers" class="level2">
-<h2 class="anchored" data-anchor-id="revel-in-your-nerd-powers">REVEL IN YOUR NERD POWERS</h2>
-</section>
-</section>
-<section id="part-2-embedding-images" class="level1">
-<h1>Part 2: Embedding Images</h1>
-<ul>
-<li><p>create a folder in your repository’s main branch, call it images</p></li>
-<li><p>find any .jpeg, .jpg or .png file and insert it into that folder.</p></li>
-<li><p>In a QMD file, display the image as follows:</p></li>
-</ul>
-<p>#<img src="images/your_link_here.png" class="img-fluid" alt="CAPTION FOR YOUR PHOTO"></p>
-<p>#<img src="images/xl-refresher-grid_SHEETS.png" class="img-fluid" alt="CHATTER FOR YOUR chart"></p>
-<p>A more advanced technique controlling the width and height</p>
-<p>#<img src="images/xl-refresher-SHEETS_screen.png" class="img-fluid" style="width:100.0%" alt="Read the Screen"></p>
-<section id="embedding-code" class="level3">
-<h3 class="anchored" data-anchor-id="embedding-code">Embedding code</h3>
-<p>From a <strong>Datawrapper Map</strong></p>
-<iframe title="Small Business Reporting, Spring 2024" aria-label="Map" id="datawrapper-chart-z4bny" src="https://datawrapper.dwcdn.net/z4bny/5/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="500" data-external="1">
-</iframe>
-<script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();
-</script>
-</section>
-<section id="embedding-video" class="level2">
-<h2 class="anchored" data-anchor-id="embedding-video">Embedding video</h2>
-<section id="deep-nerd-video" class="level3">
-<h3 class="anchored" data-anchor-id="deep-nerd-video">Deep Nerd Video</h3>
-<div id="first_steps">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/TNP_unReOpw?si=CQC3cG49TShkoJOG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
-</iframe>
-</div>
-</section>
-<div id="second_steps">
-<section id="a-great-lecture-on-structural-racism-in-journalism" class="level3">
-<h3 class="anchored" data-anchor-id="a-great-lecture-on-structural-racism-in-journalism">A great lecture on structural racism in journalism</h3>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/DIDHbEZYFSc?si=a-KNzlQgoGjXD6VV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
-</iframe>
-</section>
-</div>
-<p><strong>Now replace these two videos with something you selected.</strong></p>
-<p>The embed code is in the video share feature</p>
-</section>
-<section id="instructions-to-embed-a-gif" class="level2">
-<h2 class="anchored" data-anchor-id="instructions-to-embed-a-gif">Instructions to embed a gif</h2>
-<p>This is a very basic starter but it will get you to the finish line on Saturday. Good luck!</p>
-<p>–30–</p>
 </section>
 </section>
 

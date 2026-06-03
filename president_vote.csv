@@ -1,0 +1,67 @@
+"precinct","president_1","president_2","president_3","president_4","president_5","votes_1","votes_2","votes_3","votes_4","votes_5","total_votes","percent_votes_1","percent_votes_2","percent_votes_3","percent_votes_4","percent_votes_5"
+"01-001","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",1525,1306,29,18,17,2895,53,45,1,1,1
+"01-002","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",2447,1180,49,46,30,3752,65,31,1,1,1
+"01-003","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",769,750,18,16,11,1564,49,48,1,1,1
+"02-001","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1603,589,31,22,15,2260,71,26,1,1,1
+"02-002","Harris-Walz","Trump-Vance","Stein-Ware","Oliver-ter Maat","Kennedy, Jr.-Shanahan",637,249,14,8,6,914,70,27,2,1,1
+"02-003","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1954,701,41,26,15,2737,71,26,1,1,1
+"02-004","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1974,1018,34,31,13,3070,64,33,1,1,0
+"02-005","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",2391,748,37,37,27,3240,74,23,1,1,1
+"02-006","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1267,784,22,14,10,2097,60,37,1,1,0
+"02-007","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",2345,956,31,30,23,3385,69,28,1,1,1
+"02-008","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",2043,998,43,26,11,3121,65,32,1,1,0
+"02-010","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",2315,1161,39,28,16,3559,65,33,1,1,0
+"02-011","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1406,596,25,24,16,2067,68,29,1,1,1
+"02-013","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",2852,1025,40,27,9,3953,72,26,1,1,0
+"02-014","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1325,663,24,17,3,2032,65,33,1,1,0
+"02-015","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",2819,1353,35,34,13,4254,66,32,1,1,0
+"02-016","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",931,473,24,19,8,1455,64,33,2,1,1
+"02-018","Harris-Walz","Trump-Vance","Stein-Ware","Oliver-ter Maat","Kennedy, Jr.-Shanahan",985,462,16,15,12,1490,66,31,1,1,1
+"03-001","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",1825,1767,39,31,16,3678,50,48,1,1,0
+"03-002","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",1562,1358,26,21,15,2982,52,46,1,1,1
+"04-001","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",503,202,7,5,4,721,70,28,1,1,1
+"05-001","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",1765,799,33,10,9,2616,67,31,1,0,0
+"05-002","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Stein-Ware",NA,218,58,2,1,NA,NA,NA,NA,NA,NA,NA
+"06-001","Trump-Vance","Harris-Walz","Oliver-ter Maat","Kennedy, Jr.-Shanahan","Stein-Ware",1065,363,17,9,6,1460,73,25,1,1,0
+"07-001","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1456,1095,32,30,16,2629,55,42,1,1,1
+"07-002","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",2369,1341,90,43,33,3876,61,35,2,1,1
+"07-003","Harris-Walz","Trump-Vance","Stein-Ware","Oliver-ter Maat","Kennedy, Jr.-Shanahan",1205,1042,20,19,18,2304,52,45,1,1,1
+"07-004","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1435,791,44,22,10,2302,62,34,2,1,0
+"07-007","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",660,420,10,6,5,1101,60,38,1,1,0
+"08-001","Trump-Vance","Harris-Walz","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1030,519,14,9,5,1577,65,33,1,1,0
+"09-001","Harris-Walz","Trump-Vance","Oliver-ter Maat","Kennedy, Jr.-Shanahan","Stein-Ware",1343,1275,27,24,14,2683,50,48,1,1,1
+"09-002","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",2085,1974,36,30,29,4154,50,48,1,1,1
+"09-003","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1152,960,24,20,12,2168,53,44,1,1,1
+"09-004","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",1669,1242,28,19,16,2974,56,42,1,1,1
+"09-005","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",652,610,10,9,8,1289,51,47,1,1,1
+"09-006","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",2288,1696,49,40,25,4098,56,41,1,1,1
+"09-007","Harris-Walz","Trump-Vance","Oliver-ter Maat","Kennedy, Jr.-Shanahan","Stein-Ware",2458,2099,39,35,33,4664,53,45,1,1,1
+"10-001","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",500,142,7,4,2,655,76,22,1,1,0
+"10-002","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",507,151,12,7,5,682,74,22,2,1,1
+"11-001","Trump-Vance","Harris-Walz","Oliver-ter Maat","Kennedy, Jr.-Shanahan","Stein-Ware",1372,605,19,18,6,2020,68,30,1,1,0
+"12-001","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",1590,1473,39,35,22,3159,50,47,1,1,1
+"13-001","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",2346,1991,55,37,32,4461,53,45,1,1,1
+"13-003","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",276,275,5,5,4,565,49,49,1,1,1
+"14-001","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",1900,1489,33,17,13,3452,55,43,1,0,0
+"15-001","Trump-Vance","Harris-Walz","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",463,157,2,1,1,624,74,25,0,0,0
+"15-002","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",2845,1428,52,23,13,4361,65,33,1,1,0
+"15-003","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan",NA,NA,43,8,1,NA,NA,NA,NA,NA,NA,NA,NA
+"16-001","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",1648,1076,34,33,11,2802,59,38,1,1,0
+"17-001","Trump-Vance","Harris-Walz","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",928,326,7,5,4,1270,73,26,1,0,0
+"18-001","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",1159,1004,21,11,10,2205,53,46,1,0,0
+"18-002","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",2384,1562,35,22,20,4023,59,39,1,1,0
+"19-001","Trump-Vance","Harris-Walz","Oliver-ter Maat","Kennedy, Jr.-Shanahan","Stein-Ware",777,304,10,8,5,1104,70,28,1,1,0
+"20-001","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",1290,604,19,16,7,1936,67,31,1,1,0
+"21-001","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",1051,987,19,16,12,2085,50,47,1,1,1
+"21-002","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",1238,557,17,14,10,1836,67,30,1,1,1
+"21-003","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",2869,1492,43,38,19,4461,64,33,1,1,0
+"21-009","Harris-Walz","Trump-Vance","Stein-Ware","Oliver-ter Maat",NA,208,109,7,1,NA,NA,NA,NA,NA,NA,NA
+"22-001","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",571,402,8,4,4,989,58,41,1,0,0
+"23-001","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",682,492,11,11,10,1206,57,41,1,1,1
+"23-002","Harris-Walz","Trump-Vance",NA,NA,NA,16,6,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"23-005","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",2002,1040,38,33,19,3132,64,33,1,1,1
+"24-001","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",1070,922,21,17,16,2046,52,45,1,1,1
+"24-002","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1044,707,26,11,9,1797,58,39,1,1,1
+"25-001","Harris-Walz","Trump-Vance","Stein-Ware","Kennedy, Jr.-Shanahan","Oliver-ter Maat",1496,1299,29,25,22,2871,52,45,1,1,1
+"26-001","Harris-Walz","Trump-Vance","Kennedy, Jr.-Shanahan","Oliver-ter Maat","Stein-Ware",1516,1508,31,22,12,3089,49,49,1,1,0
+"26-002","Trump-Vance","Harris-Walz","Kennedy, Jr.-Shanahan","Stein-Ware","Oliver-ter Maat",1179,1110,35,17,16,2357,50,47,1,1,1
