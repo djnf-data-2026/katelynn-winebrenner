@@ -24,6 +24,7 @@ library(tidyverse)
 library(janitor)
 library(dplyr)
 library(sf)
+library(tidyr)
 ```
 
 #importing, combining, cleaning data column names
@@ -42,6 +43,8 @@ general <- rbind(general1, general2)
 ```
 #focus on total of for each candidate by precinct, 
 ## questions: what does undervote mean?
+#create seat_three in the same method as above
+#use the union function to union "combined" with "Seat_three" and you will not have a data frame with the three choices of each ballot. you can use group_by(precinct) on this new data frame to do more detailed analysis
 
 ```{r}
  general_cleaned <- general |>
@@ -54,8 +57,7 @@ seat_three <- general_cleaned |> select(cast_vote_record, precinct, ballot_style
 combined <- union(seat_one, seat_two,)
 combined <-union(combined, seat_three)
 
-#create seat_three in the same method as above
-#use the union function to union "combined" with "Seat_three" and you will not have a data frame with the three choices of each ballot. you can use group_by(precinct) on this new data frame to do more detailed analysis
+
 
 ```
 
@@ -65,10 +67,36 @@ precinct_vote_counts <- combined |>
    group_by(precinct, candidate)|>
    arrange(candidate)|>
   summarize(votes=n()) |>
-  mutate(precinct= substring(precinct, 2))
+  mutate(precinct= substring(precinct, 2))|>
+  filter(
+    !is.na(candidate),
+    !candidate %in% c("undervote", "overvote", "or write-in:")
+  ) |>
+  group_by(precinct) |>
+  arrange(desc(votes), .by_group = TRUE) |>
+  mutate(rank = row_number()) |>
+  ungroup()
 
 
-write.csv(precinct_vote_counts, "precinct_vote_counts.csv", row.names = FALSE)
+precinct_vote_wide <- precinct_vote_counts |>
+  pivot_wider(
+    names_from = rank,
+    values_from = c(candidate, votes),
+  names_glue = "{.value}_{rank}")|>
+ mutate(
+    across(
+      starts_with("candidate"),
+      ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))
+    )
+  )
+  
+
+write.csv(precinct_vote_wide, "precinct_vote_wide.csv", row.names = FALSE)
+
+
+
+
+
 ```
 
 
@@ -114,7 +142,6 @@ winners <- precinct_vote_counts |>
 
 map_data <- precinct_vote_counts |>
   left_join(winners, by = "precinct")
-
 
   
 
