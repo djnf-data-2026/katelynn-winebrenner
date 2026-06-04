@@ -8,6 +8,10 @@ format:
     theme: cosmo
 ---
 
+**let's get a lead image here - a graphic or a map**
+
+**update the date**
+
 katelynnwinebrenner\@gmail.com 240-362-4882 June 3, 2026
 
 ## Results
@@ -26,9 +30,13 @@ In rural precincts that voted overwhelmingly for President Donald Trump's second
 
 In precincts within the City of Frederick, where former Vice President Kamala Harris won an overwhelming majority, candidate Josh Bokee and Veronica Lowe performed well. However, neither candidate earned enough votes to secure standing in the top three.
 
+**MOVING THIS UP:** **I’m also interested in this story because it shows that, despite Frederick’s growth in recent years that have skewed its politics to the left, the conservative values in the county still remain strong.**
+
 In precincts where Harris narrowly outperformed Trump, the vote for the Democratic-backed candidates split, allowing Brennan and Black to place in the top three.
 
 Monier was the top Democrat-supported candidate in these precincts, earning her a seat on the board.
+
+**i would add either a legend to the map or text to the capition with the political party affiliations. the caption could be as simple as the "Republican-supported candidates were Jamie Kiersten Brennan and Colt Morningstar Black and the Democratic-backed were Josh Bokee, Chad King Wilson Sr. and Veronica Lowe"**
 
 <iframe title="Democrat-backed school board candidates splintered precinct votes in 2024" aria-label="Choropleth map" id="datawrapper-chart-S5pgh" src="https://datawrapper.dwcdn.net/S5pgh/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
 
@@ -170,6 +178,8 @@ general_president_clean <- general|>
 
 ```
 
+**these tables are difficult to understand. they should be reordered; candidate_1, votes_1, candidate_2, votes_2, etc. i think the percent should be dropped from the visualization. also render them in datatable instead of head.**
+
 ```{r}
 #| echo: false
 vote_percent_board |>
@@ -178,6 +188,10 @@ vote_percent_board |>
   gt()
 
 ```
+
+**need a headline to separate this table and a brief explanation**
+
+**these tables are difficult to understand. they should be reordered; president_1, votes_1, etc. and display in a datatable**
 
 ```{r}
 #| echo: false
@@ -216,9 +230,9 @@ This story was particularly surprising to me because it showcases the impact of 
 
 From what I’ve seen, there has not been much coverage on this race in particular, other than generalized statewide coverage about the Democrats’ failures in school boards throughout the state from Maryland Matters.
 
-Half of ‘extreme’ school board candidates targeted by Md. Democratic Party win their races - Maryland Matters
+**LINKS DIDNT DISPLAY TO THESE STORIES** Half of ‘extreme’ school board candidates targeted by Md. Democratic Party win their races - Maryland Matters
 
-Md. Democratic Party targets 'extreme candidates ' in local school board races - Maryland Matters
+**LINKS DIDNT DISPLAY TO THESE STORIES** Md. Democratic Party targets 'extreme candidates ' in local school board races - Maryland Matters
 
 ## Visuals
 
@@ -236,7 +250,7 @@ I would like to have this done around the time of the primary on June 23.
 
 ## Questions and potholes
 
-I have listed all six candidates in the tooltip of the school board election results map. Would it be better to limit my tooltips to the top three candidates per precincts? I hesitate to do so because I want to show how close all of the percentages were per precinct, but it is a lot of information at once.
+I have listed all six candidates in the tooltip of the school board election results map. Would it be better to limit my tooltips to the top three candidates per precincts? **NO, I THINK YOUR TOOLTIPS ARE VERY GOOD** I hesitate to do so because I want to show how close all of the percentages were per precinct, but it is a lot of information at once.
 
 Also, I need to confirm with the Board of Elections what I think to be ghost precincts in my map. I need to confirm with them that the geojson files I'm using is conducive to the precinct data from 2024 and hasn't been changed. Based on the metadata from the county site where I downloaded the files, it doesn't seem like it has been changed since 2024, but I need to be sure. I also want to confirm I addressed ballot results listed as overvote, undervote or write-in correctly and that filtering them out as I did doesn't cause in inaccuracies.
 
