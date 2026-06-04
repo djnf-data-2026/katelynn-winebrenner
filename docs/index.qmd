@@ -1,5 +1,5 @@
 ---
-title: "Draft story memo"
+title: "2024 Frederick County School Board Election"
 author: "Katelynn Winebrenner"
 date: "June-1-2026"
 format:
@@ -8,11 +8,11 @@ format:
     theme: cosmo
 ---
 
-katelynnwinebrenner\@gmail.com 240-362-4882 June 1, 2026
+katelynnwinebrenner\@gmail.com 240-362-4882 June 3, 2026
 
-# 2024 Frederick County School Board Election
+## Results
 
-In the 2024 Frederick County School Board election, the Frederick County Democratic Party endorsed four candidates for three open at-large seats. This decision caused splintering within the party that led to conservative candidates -- Jamie Kiersten Brennan and Colt Morningstar Black -- to take two of the seats.
+In the 2024 Frederick County school board election, the Frederick County Democratic Party endorsed four candidates for three open at-large seats. This decision caused splintering within the party that led to conservative candidates -- Jamie Kiersten Brennan and Colt Morningstar Black -- to take two of the seats.
 
 Brennan stepped down as chair of the county chapter of Moms for Liberty to run for school board seat. She won 16.8% of the total votes-- the highest in the county.
 
