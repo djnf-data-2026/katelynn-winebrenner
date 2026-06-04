@@ -113,18 +113,11 @@ vote_percent_board <- precinct_vote_counts |>
   mutate(
     across(
       starts_with("candidate"),
-      ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))),
-    party =
-      case_when(
-        candidate == "Jaime Kiersten Brennan" ~ "*",
-        candidate == "Colt Morningstar Black" ~ "*",
-        candidate == "Janie Monier" ~ "^",
-        candidate == "Josh Bokee" ~ "^",
-        candidate == "Chad King Wilson, Sr." ~ "^",
-        candidate == "Veronica D. Lowe"~ "^"))|>
+      ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x)))
+   )|>
   pivot_wider(
     names_from = rank,
-    values_from = c(candidate, votes, party),
+    values_from = c(candidate, votes),
     names_glue = "{.value}_{rank}")|>
   mutate(
     total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5 + votes_6,
