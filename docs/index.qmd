@@ -197,8 +197,12 @@ My target audience is Frederick county parents and candidates.
 
 ## Sources
 
-Some people I could interview for this story would be: Frederick Democrats Chair \| Mari Lee \| (301) 898-2513 \| info\@frederickdemocrats.org Moms for Liberty Chapter Chair \| Tiffany Noble \| Tiffany.noble0820\@gmail.com Frederick County PTA President \| Najlaa Richard \| president\@frederickpta.org School board candidate Chad Wilson, Sr. (lost in 2024, running again this season)\
-It would be very interesting to go to these purple precincts to find someone who voted for Harris in 2024 but also voted for a conservative school board member to interview and to hear their decision making process.
+Some people I could interview for this story would be:\
+-Frederick Democrats Chair \| Mari Lee \| (301) 898-2513 \| info\@frederickdemocrats.org\
+-Moms for Liberty Chapter Chair \| Tiffany Noble \| Tiffany.noble0820\@gmail.com\
+-Frederick County PTA President \| Najlaa Richard \| president\@frederickpta.org\
+-School board candidate Chad Wilson, Sr. (lost in 2024, running again this cycle)\
+-I would also like to go to go to these purple precincts to find someone who voted for Harris in 2024 but also voted for a conservative school board member to interview and to hear their decision making process
 
 ## Potential impact
 
@@ -228,13 +232,18 @@ As for other information still to gather, I need to do more research on the prev
 
 ## To do and expected completion
 
-I would like to have this done around the time of the primary on June 23. Interviews shouldn’t take very long to set up. I would also like to try to talk to some regular Frederick County parents, which could be a little more difficult as a newcomer. 
+I would like to have this done around the time of the primary on June 23. Interviews shouldn’t take very long to set up. I would also like to try to talk to some regular Frederick County parents, which could be a little more difficult as a newcomer.
 
 ## Questions and potholes
-I need to confirm with the Board of Elections what I think to be ghost precincts in my map. I need to confirm with them that the geojson files I'm using is conducive to the precinct data from 2024 and hasn't been changed. Based on the metadata from the county site where I downloaded the files, it doesn't seem like it has been changed since 2024, but I need to be sure. I also want to confirm I addressed ballot results listed as overvote, undervote or write-in correctly and that filtering them out as I did doesn't cause in inaccuracies.
 
+I have listed all six candidates in the tooltip of the school board election results map. Would it be better to limit my tooltips to the top three candidates per precincts? I hesitate to do so because I want to show how close all of the percentages were per precinct, but it is a lot of information at once.
 
-## Businesses to watch 
+Also, I need to confirm with the Board of Elections what I think to be ghost precincts in my map. I need to confirm with them that the geojson files I'm using is conducive to the precinct data from 2024 and hasn't been changed. Based on the metadata from the county site where I downloaded the files, it doesn't seem like it has been changed since 2024, but I need to be sure. I also want to confirm I addressed ballot results listed as overvote, undervote or write-in correctly and that filtering them out as I did doesn't cause in inaccuracies.
+
+## Businesses to watch
+
+![Frederick National Laboratory for Cancer Research](leidos.png)
+
 Frederick is teeming with biotech and medical research companies. The Frederick National Laboratory for Cancer Research is one of the biggest non-governmental employers with 2,440 workers.
 
 The Lab is operated by Leidos Biomedical Research, Inc. for the National Cancer Institute. According to its website, Leidos has operated there for over 25 years
@@ -252,4 +261,3 @@ Specifically in terms of its health technologies I found:
 According to its 8-K from April this year, the company's first quarter profit was 335 million dollars. Down from last year's 363 million dollars, despite earning more revenue, 4.4 billion dollars this year compared to last year's 4.245 billion dollars.
 
 Health in particular brought in 1.19 billion dollars of revenue this first quarter, the same as last year's quarter. "Health profitability was also relatively stable across periods."
-
