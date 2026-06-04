@@ -231,8 +231,32 @@ I'd still like to create a bar graph of sorts to visualize the total votes each 
 
 ## To learn
 
-As for other information still to gather, I need to do more research on the previous election members, why those seats were open and what the 2024 campaign season was like. I’d also like to research what kind of decisions or changes the new conservative school board members have made since being elected to office and what new candidates are saying about them.
+As for other information still to gather, I need to do more research on the previous election members, why those seats were open and what the 2024 campaign season was like. I’d also like to research what kind of decisions or changes the new conservative school board members have made since being elected to office and what new candidates are saying about them. I also want to see what candidates this election cycle are saying.
 
 ## To do and expected completion
 
-I would like to have this done around the time of the primary on June 23. Interviews shouldn’t take very long to set up. I would also like to try to talk to some regular Frederick County parents, which could be a little more difficult as a newcomer. I need to confirm with the Board of Elections what I think to be ghost precincts. I also want to confirm I addressed ballot results listed as overvote, undervote or write-in correctly.
+I would like to have this done around the time of the primary on June 23. Interviews shouldn’t take very long to set up. I would also like to try to talk to some regular Frederick County parents, which could be a little more difficult as a newcomer. 
+
+## Questions and potholes
+I need to confirm with the Board of Elections what I think to be ghost precincts in my map. I need to confirm with them that the geojson files I'm using is conducive to the precinct data from 2024 and hasn't been changed. Based on the metadata from the county site where I downloaded the files, it doesn't seem like it has been changed since 2024, but I need to be sure. I also want to confirm I addressed ballot results listed as overvote, undervote or write-in correctly and that filtering them out as I did doesn't cause in inaccuracies.
+
+
+## Businesses to watch 
+Frederick is teeming with biotech and medical research companies. The Frederick National Laboratory for Cancer Research is one of the biggest non-governmental employers with 2,440 workers.
+
+The Lab is operated by Leidos Biomedical Research, Inc. for the National Cancer Institute. According to its website, Leidos has operated there for over 25 years
+
+Based on EDGAR search results for Leidos Holdings, Inc., which is an American Fortune 500 science, engineering, and information technology company, I found the company's lastest 10-K annual filings from this February. Leidos Inc. itself did not have any 10-K filings in the last five years.
+
+The company, which often serves as a contractor for the U.S. government, listed federal budget changes as a significant risk.
+
+"A decline in the U.S. government budget, changes in spending or budgetary priorities or delays in contract awards may significantly and adversely affect our future revenues and limit our growth prospects."
+
+Specifically in terms of its health technologies I found:
+
+"Health & Civil represented 30% for both fiscal 2025 and 2024 and 27% of total revenues for fiscal 2023."
+
+According to its 8-K from April this year, the company's first quarter profit was 335 million dollars. Down from last year's 363 million dollars, despite earning more revenue, 4.4 billion dollars this year compared to last year's 4.245 billion dollars.
+
+Health in particular brought in 1.19 billion dollars of revenue this first quarter, the same as last year's quarter. "Health profitability was also relatively stable across periods."
+
