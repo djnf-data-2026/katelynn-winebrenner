@@ -13,7 +13,9 @@ katelynnwinebrenner\@gmail.com 240-362-4882 June 1, 2026
 
 In the 2024 Frederick County School Board election, the Frederick County Democratic Party endorsed four candidates for three open seats. This decision caused splintering within the party that led to conservative **candidates backed by Moms for Liberty** to take two of the seats.
 
-IDENTIFY CANDIDATES BACKED BY BLUE OR RED
+IDENTIFY CANDIDATES BACKED BY BLUE OR RED ##display by top candidates top candidates: winner: Jaime Brennan and Colt Morningstar Black were two of the top three vote-getters in Frederick County. Brennan stepped down as chair of the county chapter of Moms for Liberty to run for school board seat;
+
+Jaime Brennan 16.8% 55,444 (REP/ Moms for liberty former chair) Janie Monier 16.7% 54,976 (DEM) Colt Morningstar Black 16.2% 53,403 (REP) Josh Bokee 16.1% 53,190. (DEM) Chad King Wilson Sr. 14.8% 48,860 (DEM) Veronica Lowe 12.5% 41,200 (DEM)
 
 <iframe title="Democrat-backed school board candidates splintered precinct votes in 2024" aria-label="Choropleth map" id="datawrapper-chart-S5pgh" src="https://datawrapper.dwcdn.net/S5pgh/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
 
@@ -31,13 +33,13 @@ IDENTIFY CANDIDATES BACKED BY BLUE OR RED
 
 This story is relevant now because no one has mapped out these votes yet to identify where the splintering happened, and there is another upcoming school board election for the other four seats.
 
-TABLE
+## Code
 
-```{r setup, include=FALSE}
+```{r eval=FALSE, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
-#| include: false
+```{r eval=FALSE, include=TRUE}
 library(tidyverse)
 library(janitor)
 library(dplyr)
@@ -45,8 +47,7 @@ library(sf)
 library(tidyr)
 ```
 
-```{r}
-#| include: false
+```{r eval=FALSE, include=TRUE}
 
 general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
   clean_names()
@@ -59,8 +60,7 @@ general <- rbind(general1, general2)
 
 ```
 
-```{r}
-#| include: false
+```{r eval=FALSE, include=TRUE}
  general_cleaned <- general |>
   select(cast_vote_record, precinct, ballot_style, seat_one = board_of_education_500001671, seat_two = x13, seat_three = x14)
 
@@ -71,12 +71,9 @@ seat_three <- general_cleaned |> select(cast_vote_record, precinct, ballot_style
 combined <- union(seat_one, seat_two,)
 combined <-union(combined, seat_three)
 
-
-
 ```
 
-```{r}
-#| echo: true
+```{r eval=FALSE, include=TRUE}
 precinct_vote_counts <- combined |>
    group_by(precinct, candidate)|>
    arrange(candidate)|>
@@ -102,6 +99,8 @@ precinct_vote_wide <- precinct_vote_counts |>
       starts_with("candidate"),
       ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))
     ))
+
+  write.csv(precinct_vote_wide, "precinct_vote_wide.csv", row.names = FALSE)
 
   #create a map to represent the percent of voters per precinct who voted for rep-backed candidates versus dem-backed candidates— easier to compare with kamala v trump
 
@@ -132,16 +131,14 @@ vote_percent_board <- precinct_vote_counts |>
            percent_votes_5 = round((votes_5/total_votes)*100),
            percent_votes_6 = round((votes_6/total_votes)*100)
      
-     )|>
-    head()
+     )
+
+  write.csv(vote_percent_board, "vote_percent.csv", row.names = FALSE)
 
 
 ```
 
-Presidential election results by precinct
-
-```{r}
-#| echo: true
+```{r eval=FALSE, include=TRUE}
 general_president_clean <- general|>
   select(precinct, president=president_and_vice_president_of_the_united_states_500001630)|>
   group_by(precinct, president)|>
@@ -171,8 +168,12 @@ general_president_clean <- general|>
            percent_votes_3 = round((votes_3/total_votes)*100),
            percent_votes_4 = round((votes_4/total_votes)*100),
            percent_votes_5 = round((votes_5/total_votes)*100)
-     )|>
-  head()
+       
+     )
+  
+
+write.csv(general_president_clean, "president_vote.csv", row.names = FALSE)
+
 
 ```
 
