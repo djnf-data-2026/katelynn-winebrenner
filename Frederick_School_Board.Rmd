@@ -8,73 +8,52 @@ date: "2026-06-01"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-I've been given cast vote records for Frederick County. With this, I am able to analyze voting patterns by precinct for the primary and general elections in 2024. 
-
-I can analyze, for example, how each precinct voted for the presidency versus how they voted on local elections in the same year. 
-
-When first informed I had been selected for the Frederick News-Post, I remember being told about a controversy in the last school board election that led to a conservative candidate to win one of the school board seats. 
-
-(Per my email from Karen: there was an element of controversy in that election because four Democrat-leaning candidates ran for three seats, and the local Democratic Party encouraged voters to vote for any of them, instead of focusing on three. This led to some splintering that allowed a member of a conservative candidate slate to narrowly win one of the three seats. The data analysis of voting patterns will help us understand better what happened and revisit the issue.)
-
-**Rsw comment: Let's start with this county school race
-
-##LOAD LIBRARIES
+#LIBRARIES
 ```{r}
 library(tidyverse)
 library(janitor)
 library(dplyr)
-library(sf)
 library(tidyr)
+library(DT)
 ```
 
-#importing, combining, cleaning data column names
-```{r}
 
+# SET UP
+```{r}
 general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
   clean_names()
-
 general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE.csv") |> 
   clean_names()
+general_2024 <- rbind(general1, general2)
+school_board <- general_2024 |>
+  select(cast_vote_record, precinct, seat_one = board_of_education_500001671, seat_two = x13, seat_three = x14)
 
-#the two general files from 2024 should be combined. they are the same sheet, one was just limited to 99,999 
-general <- rbind(general1, general2)
+seat_one <- school_board |> select(cast_vote_record, precinct, candidate = seat_one)
+seat_two <- school_board |> select(cast_vote_record, precinct, candidate = seat_two)
+seat_three <- school_board |> select(cast_vote_record, precinct, candidate = seat_three)
 
-```
-#focus on total of for each candidate by precinct, 
-
-```{r}
- general_cleaned <- general |>
-  select(cast_vote_record, precinct, ballot_style, seat_one = board_of_education_500001671, seat_two = x13, seat_three = x14)
-
-seat_one <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_one)
-seat_two <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_two)
-seat_three <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_three)
-
-combined <- union(seat_one, seat_two,)
-combined <-union(combined, seat_three)
-
-
+school_board <- union(seat_one, seat_two,)
+school_board <-union(school_board, seat_three)
 
 ```
 
-##QUESTIONS why are some undervotes and some are NA? should undervote be excluded or included? #getting this weird message, but the code still works
+#SCHOOL BOARD ANALYSIS BY PRECINCT
 ```{r}
-precinct_vote_counts <- combined |>
+ranked_school_candidates <- school_board |>
    group_by(precinct, candidate)|>
    arrange(candidate)|>
   summarize(votes=n()) |>
   mutate(precinct= substring(precinct, 2))|>
   filter(
     !is.na(candidate),
-    !candidate %in% c("undervote", "overvote", "or write-in:") #questionable
+    !candidate %in% c("undervote", "overvote", "or write-in:") #needs reporting to verify accuracy
   ) |>
   group_by(precinct) |>
   arrange(desc(votes), .by_group = TRUE) |>
   mutate(rank = row_number()) |>
   ungroup()
 
-
-precinct_vote_wide <- precinct_vote_counts |>
+ranked_school_candidates_by_precinct <- ranked_school_candidates |>
   pivot_wider(
     names_from = rank,
     values_from = c(candidate, votes),
@@ -85,30 +64,8 @@ precinct_vote_wide <- precinct_vote_counts |>
       ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))
     ))
 
-  write.csv(precinct_vote_wide, "precinct_vote_wide.csv", row.names = FALSE)
-
-
-  #create a map to represent the percent of voters per precinct who voted for rep-backed candidates versus dem-backed candidates— easier to compare with kamala v trump
-
-
-vote_percent_board <- precinct_vote_counts |>
+percent_ranked_school_candidates_by_precinct <- ranked_school_candidates_by_precinct |>
   group_by(precinct)|>
-  mutate(
-    across(
-            starts_with("candidate"),
-               ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))),
-    party =
-          case_when(
-              candidate == "Jaime Kiersten Brennan" ~ "*",
-              candidate == "Colt Morningstar Black" ~ "*",
-              candidate == "Janie Monier" ~ "^",
-              candidate == "Josh Bokee" ~ "^",
-              candidate == "Chad King Wilson, Sr." ~ "^",
-              candidate == "Veronica D. Lowe"~ "^"))|>
-        pivot_wider(
-            names_from = rank,
-            values_from = c(candidate, votes, party),
-            names_glue = "{.value}_{rank}")|>
       mutate(
            total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5 + votes_6,
            percent_votes_1 = round((votes_1/total_votes)*100),
@@ -117,50 +74,22 @@ vote_percent_board <- precinct_vote_counts |>
            percent_votes_4 = round((votes_4/total_votes)*100),
            percent_votes_5 = round((votes_5/total_votes)*100),
            percent_votes_6 = round((votes_6/total_votes)*100)
-     
-     )
+     )|>
+  select(
+    precinct, 
+    candidate_1, votes_1, percent_votes_1, 
+    candidate_2, votes_2, percent_votes_2, 
+    candidate_3, votes_3, percent_votes_3, 
+    candidate_4, votes_4, percent_votes_4, 
+    candidate_5, votes_5, percent_votes_5, 
+    candidate_6, votes_6, percent_votes_6)
 
-  write.csv(vote_percent_board, "vote_percent.csv", row.names = FALSE)
-
-
+write_csv(percent_ranked_school_candidates_by_precinct, "percent_ranked_school_candidates_by_precinct.csv")
 ```
 
-
-#map out by precinct
-## later create a df of candidates and their demographics/party affiliation/moms of liberty affiliation
+#PRESIDENTIAL RACE ANALYSIS BY PRECINCT
 ```{r}
-
-f_precincts <- st_read("~/Documents/GitHub/djnf-data-2026-katelynn-winebrenner/katelynn-winebrenner/data/frederick voting precincts/Election_Precinct.geojson")|>
-  clean_names()
-
-combined_sf <- left_join(f_precincts, precinct_vote_counts, by = "precinct")
-
-
-write.csv(combined_sf, "combined_sf.csv", row.names = FALSE)
-```
-```{r}
-
-```
-
-
-
-##display by top candidates
-top candidates:
-winner:
-Jaime Brennan and Colt Morningstar Black were two of the top three vote-getters in Frederick County. Brennan stepped down as chair of the county chapter of Moms for Liberty to run for school board seat;
-
-Jaime Brennan             16.8% 	55,444 (REP/ Moms for liberty former chair)
-Janie Monier              16.7% 	54,976  (DEM)
-Colt Morningstar Black    16.2% 	53,403  (REP)
-Josh Bokee	              16.1% 	53,190. (DEM)
-Chad King Wilson Sr.	    14.8% 	48,860 (DEM)
-Veronica Lowe             12.5% 	41,200 (DEM)
-
-#QUESTION:Were the seats filled by DEMS before?
-
-NOW PRECINCT MAP BY PRESIDENTIAL RESULTS
-```{r}
-general_president_clean <- general|>
+general_president_clean <- general_2024|>
   select(precinct, president=president_and_vice_president_of_the_united_states_500001630)|>
   group_by(precinct, president)|>
      arrange(president)|>
@@ -168,7 +97,7 @@ general_president_clean <- general|>
   mutate(precinct= substring(precinct, 2))|>
   filter(
     !is.na(president),
-    !president %in% c("undervote", "overvote", "or write-in:") #questionable
+    !president %in% c("undervote", "overvote", "or write-in:") #needs reporting to confirm accuracy
   ) |>
   group_by(precinct) |>
   arrange(desc(votes), .by_group = TRUE) |>
@@ -188,15 +117,29 @@ general_president_clean <- general|>
            percent_votes_2 = round((votes_2/total_votes)*100),
            percent_votes_3 = round((votes_3/total_votes)*100),
            percent_votes_4 = round((votes_4/total_votes)*100),
-           percent_votes_5 = round((votes_5/total_votes)*100),
-           
-     
+           percent_votes_5 = round((votes_5/total_votes)*100)
      )
   
-
 write.csv(general_president_clean, "president_vote.csv", row.names = FALSE)
 
+#how many precincts did harris win? 39
+harris_win <- general_president_clean |>
+  filter(president_1 == "Harris-Walz")|>
+  select(precinct, president=president_1, harris_votes=votes_1, harris_percent=percent_votes_1)
 
+#harris precincts + their school board results 
+harris_w_board <- harris_win |>
+  left_join( percent_ranked_school_candidates_by_precinct, by = "precinct")|>
+  select(precinct, president, 
+         candidate_1, 
+         candidate_2,
+         candidate_3)
+         
+#how many did she win that  voted for one of the conservative candidates? 15
+harris_w_mol<- harris_w_board|> 
+  filter(
+    candidate_1 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black") | candidate_2 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black") | candidate_3 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black")
+        
 ```
 
 

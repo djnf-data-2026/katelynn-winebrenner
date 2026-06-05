@@ -1,20 +1,30 @@
 ---
-title: "2024 Frederick County School Board Election"
-author: "Katelynn Winebrenner"
-date: "June-1-2026"
+title: "How Moms of Liberty-backed candidates secured Frederick County School Board seats"
 format:
   html:
     df-print: kable
-    theme: cosmo
+    theme: lux
+    toc: true
+    toc-depth: 2
+editor: visual
+execute: 
+  warning: false # suppress warnings
+date: last-modified
+date-format: "YYYY-MM-DD HH:mm"
+author: 
+  - name: Katelynn Winebrenner
+    email: katelynnwinebrenner@gmail.com
 ---
 
-**let's get a lead image here - a graphic or a map**
+<iframe title="Conservative-backed school board candidates broke through precincts Harris won in 2024" aria-label="Choropleth map" id="datawrapper-chart-S5pgh" src="https://datawrapper.dwcdn.net/S5pgh/5/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
 
-**update the date**
+</iframe>
 
-katelynnwinebrenner\@gmail.com 240-362-4882 June 3, 2026
+```{=html}
+<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+```
 
-## Results
+## The race
 
 In the 2024 Frederick County school board election, the Frederick County Democratic Party endorsed four candidates for three open at-large seats. This decision caused splintering within the party that led to conservative candidates -- Jamie Kiersten Brennan and Colt Morningstar Black -- to take two of the seats.
 
@@ -30,128 +40,103 @@ In rural precincts that voted overwhelmingly for President Donald Trump's second
 
 In precincts within the City of Frederick, where former Vice President Kamala Harris won an overwhelming majority, candidate Josh Bokee and Veronica Lowe performed well. However, neither candidate earned enough votes to secure standing in the top three.
 
-**MOVING THIS UP:** **I’m also interested in this story because it shows that, despite Frederick’s growth in recent years that have skewed its politics to the left, the conservative values in the county still remain strong.**
+It shows that, despite Frederick’s growth in recent years that have skewed its politics to the left, the conservative values in the county still remain strong.
 
 In precincts where Harris narrowly outperformed Trump, the vote for the Democratic-backed candidates split, allowing Brennan and Black to place in the top three.
 
 Monier was the top Democrat-supported candidate in these precincts, earning her a seat on the board.
 
-**i would add either a legend to the map or text to the capition with the political party affiliations. the caption could be as simple as the "Republican-supported candidates were Jamie Kiersten Brennan and Colt Morningstar Black and the Democratic-backed were Josh Bokee, Chad King Wilson Sr. and Veronica Lowe"**
+## The split precincts
 
-<iframe title="Democrat-backed school board candidates splintered precinct votes in 2024" aria-label="Choropleth map" id="datawrapper-chart-S5pgh" src="https://datawrapper.dwcdn.net/S5pgh/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
-
-</iframe>
-
-```{=html}
-<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
-```
-
-<iframe title="Harris took Frederick County, but Trump wasn&#39;t far behind" aria-label="Choropleth map" id="datawrapper-chart-bakfo" src="https://datawrapper.dwcdn.net/bakfo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height data-external="1">
-
-</iframe>
-
-## Tables (Heads of my precinct data analysis)
+Of the 39 precincts in which Harris beat Trump in the 2024 election in Frederick County, 15 also voted to elect at least one of the conservative-supported school board candidates to one of the seats.
 
 ```{r}
 #| include: false
 knitr::opts_chunk$set(echo = TRUE)
 
-
+#LIBRARIES
 library(tidyverse)
 library(janitor)
 library(dplyr)
-library(sf)
 library(tidyr)
-library(gt)
+library(DT)
 
-
+##SET UP
 general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
   clean_names()
 
 general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE.csv") |> 
   clean_names()
 
-#the two general files from 2024 should be combined. they are the same sheet, one was just limited to 99,999 
-general <- rbind(general1, general2)
+general_2024 <- rbind(general1, general2)
+school_board <- general_2024 |>
+  select(cast_vote_record, precinct, seat_one = board_of_education_500001671, seat_two = x13, seat_three = x14)
 
+seat_one <- school_board |> select(cast_vote_record, precinct, candidate = seat_one)
+seat_two <- school_board |> select(cast_vote_record, precinct, candidate = seat_two)
+seat_three <- school_board |> select(cast_vote_record, precinct, candidate = seat_three)
 
-general_cleaned <- general |>
-  select(cast_vote_record, precinct, ballot_style, seat_one = board_of_education_500001671, seat_two = x13, seat_three = x14)
+school_board <- union(seat_one, seat_two,)
+school_board <-union(school_board, seat_three)
 
-seat_one <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_one)
-seat_two <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_two)
-seat_three <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_three)
-
-combined <- union(seat_one, seat_two,)
-combined <-union(combined, seat_three)
-
-
-precinct_vote_counts <- combined |>
-  group_by(precinct, candidate)|>
-  arrange(candidate)|>
+## SCHOOL BOARD RACE BY PRECINCT
+ranked_school_candidates <- school_board |>
+   group_by(precinct, candidate)|>
+   arrange(candidate)|>
   summarize(votes=n()) |>
   mutate(precinct= substring(precinct, 2))|>
   filter(
     !is.na(candidate),
-    !candidate %in% c("undervote", "overvote", "or write-in:") #questionable
+    !candidate %in% c("undervote", "overvote", "or write-in:") #needs reporting to verify accuracy
   ) |>
   group_by(precinct) |>
   arrange(desc(votes), .by_group = TRUE) |>
   mutate(rank = row_number()) |>
   ungroup()
 
-
-precinct_vote_wide <- precinct_vote_counts |>
+ranked_school_candidates_by_precinct <- ranked_school_candidates |>
   pivot_wider(
     names_from = rank,
     values_from = c(candidate, votes),
-    names_glue = "{.value}_{rank}")|>
-  mutate(
+  names_glue = "{.value}_{rank}")|>
+ mutate(
     across(
       starts_with("candidate"),
       ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))
     ))
 
-write.csv(precinct_vote_wide, "precinct_vote_wide.csv", row.names = FALSE)
-
-#create a map to represent the percent of voters per precinct who voted for rep-backed candidates versus dem-backed candidates— easier to compare with kamala v trump
-
-vote_percent_board <- precinct_vote_counts |>
+percent_ranked_school_candidates_by_precinct <- ranked_school_candidates_by_precinct |>
   group_by(precinct)|>
-  mutate(
-    across(
-      starts_with("candidate"),
-      ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x)))
-   )|>
-  pivot_wider(
-    names_from = rank,
-    values_from = c(candidate, votes),
-    names_glue = "{.value}_{rank}")|>
-  mutate(
-    total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5 + votes_6,
-    percent_votes_1 = round((votes_1/total_votes)*100),
-    percent_votes_2 = round((votes_2/total_votes)*100),
-    percent_votes_3 = round((votes_3/total_votes)*100),
-    percent_votes_4 = round((votes_4/total_votes)*100),
-    percent_votes_5 = round((votes_5/total_votes)*100),
-    percent_votes_6 = round((votes_6/total_votes)*100)
-    
-  )
-
-write.csv(vote_percent_board, "vote_percent.csv", row.names = FALSE)
+      mutate(
+           total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5 + votes_6,
+           percent_votes_1 = round((votes_1/total_votes)*100),
+           percent_votes_2 = round((votes_2/total_votes)*100),
+           percent_votes_3 = round((votes_3/total_votes)*100),
+           percent_votes_4 = round((votes_4/total_votes)*100),
+           percent_votes_5 = round((votes_5/total_votes)*100),
+           percent_votes_6 = round((votes_6/total_votes)*100)
+     )|>
+  select(
+    precinct, 
+    candidate_1, votes_1, percent_votes_1, 
+    candidate_2, votes_2, percent_votes_2, 
+    candidate_3, votes_3, percent_votes_3, 
+    candidate_4, votes_4, percent_votes_4, 
+    candidate_5, votes_5, percent_votes_5, 
+    candidate_6, votes_6, percent_votes_6)
 
 
+#PRESIDENTIAL RACE ANALYSIS BY PRECINCT
 
-
-general_president_clean <- general|>
+general_president_clean <- general_2024|>
   select(precinct, president=president_and_vice_president_of_the_united_states_500001630)|>
   group_by(precinct, president)|>
-  arrange(president)|>
+     arrange(president)|>
   summarize(votes=n()) |>
   mutate(precinct= substring(precinct, 2))|>
   filter(
     !is.na(president),
-    !president %in% c("undervote", "overvote", "or write-in:") #questionable
+    !president %in% c("undervote", "overvote", "or write-in:") #needs reporting to confirm accuracy
   ) |>
   group_by(precinct) |>
   arrange(desc(votes), .by_group = TRUE) |>
@@ -159,47 +144,55 @@ general_president_clean <- general|>
   ungroup()|>
   mutate(
     across(
-      starts_with("president"),
-      ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))))|>
+            starts_with("president"),
+               ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))))|>
   pivot_wider(
     names_from = rank,
     values_from = c(president, votes),
-    names_glue = "{.value}_{rank}")|>
-  mutate(
-    total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5,
-    percent_votes_1 = round((votes_1/total_votes)*100),
-    percent_votes_2 = round((votes_2/total_votes)*100),
-    percent_votes_3 = round((votes_3/total_votes)*100),
-    percent_votes_4 = round((votes_4/total_votes)*100),
-    percent_votes_5 = round((votes_5/total_votes)*100)
-    
+  names_glue = "{.value}_{rank}")|>
+      mutate(
+           total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5,
+           percent_votes_1 = round((votes_1/total_votes)*100),
+           percent_votes_2 = round((votes_2/total_votes)*100),
+           percent_votes_3 = round((votes_3/total_votes)*100),
+           percent_votes_4 = round((votes_4/total_votes)*100),
+           percent_votes_5 = round((votes_5/total_votes)*100)
+     )
+  
+#how many precincts did harris win? 39
+harris_win <- general_president_clean |>
+  filter(president_1 == "Harris-Walz")|>
+  select(precinct, president=president_1, harris_votes=votes_1, harris_percent=percent_votes_1)
+
+#harris precincts + their school board results 
+harris_w_board <- harris_win |>
+  left_join( percent_ranked_school_candidates_by_precinct, by = "precinct")|>
+  select(precinct, president, 
+         candidate_1, 
+         candidate_2,
+         candidate_3)
+         
+#how many did she win that  voted for one of the conservative candidates? 15
+harris_w_mol<- harris_w_board|> 
+  filter(
+    candidate_1 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black") | candidate_2 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black") | candidate_3 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black")
   )
 
 
-```
 
-**these tables are difficult to understand. they should be reordered; candidate_1, votes_1, candidate_2, votes_2, etc. i think the percent should be dropped from the visualization. also render them in datatable instead of head.**
+```
 
 ```{r}
 #| echo: false
-vote_percent_board |>
-  as_tibble() |>
-  head()|>
-  gt()
+harris_w_mol|>
+  datatable()|>
+  formatStyle(
+    columns = c("candidate_1", "candidate_2", "candidate_3"),
+    backgroundColor = styleEqual(c("Jaime Kiersten Brennan", "Colt Morningstar Black"), c('lightcoral', 'lightcoral'))
+  )
 
 ```
 
-**need a headline to separate this table and a brief explanation**
-
-**these tables are difficult to understand. they should be reordered; president_1, votes_1, etc. and display in a datatable**
-
-```{r}
-#| echo: false
-general_president_clean|>
-  as_tibble() |>
-  head()|>
-  gt()
-```
 
 ## Relevance
 
@@ -249,8 +242,6 @@ As for other information still to gather, I need to do more research on the prev
 I would like to have this done around the time of the primary on June 23.
 
 ## Questions and potholes
-
-I have listed all six candidates in the tooltip of the school board election results map. Would it be better to limit my tooltips to the top three candidates per precincts? **NO, I THINK YOUR TOOLTIPS ARE VERY GOOD** I hesitate to do so because I want to show how close all of the percentages were per precinct, but it is a lot of information at once.
 
 Also, I need to confirm with the Board of Elections what I think to be ghost precincts in my map. I need to confirm with them that the geojson files I'm using is conducive to the precinct data from 2024 and hasn't been changed. Based on the metadata from the county site where I downloaded the files, it doesn't seem like it has been changed since 2024, but I need to be sure. I also want to confirm I addressed ballot results listed as overvote, undervote or write-in correctly and that filtering them out as I did doesn't cause in inaccuracies.
 

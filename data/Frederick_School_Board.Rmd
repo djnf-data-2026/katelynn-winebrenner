@@ -1,0 +1,220 @@
+---
+title: "Frederick County School Board Race 2024"
+output: html_document
+date: "2026-06-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+##LOAD LIBRARIES
+```{r}
+library(tidyverse)
+library(janitor)
+library(dplyr)
+library(sf)
+library(tidyr)
+```
+
+#importing, combining, cleaning data column names
+```{r}
+general1 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE_1.csv") |> 
+  clean_names()
+general2 <- read_csv("https://raw.githubusercontent.com/djnf-data-2026/master/refs/heads/main/data/GENERAL_11PG24_Prov_CVR_SBE.csv") |> 
+  clean_names()
+
+general_2024 <- rbind(general1, general2)
+
+write_csv(general_2024, "general_2024.csv")
+
+
+
+general_cleaned <- general |>
+  select(cast_vote_record, precinct, seat_one = board_of_education_500001671, seat_two = x13, seat_three = x14)
+
+seat_one <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_one)
+seat_two <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_two)
+seat_three <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_three)
+
+combined <- union(seat_one, seat_two,)
+combined <-union(combined, seat_three)
+
+
+```
+#focus on total of for each candidate by precinct, 
+
+```{r}
+ general_cleaned <- general |>
+  select(cast_vote_record, precinct, ballot_style, seat_one = board_of_education_500001671, seat_two = x13, seat_three = x14)
+
+seat_one <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_one)
+seat_two <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_two)
+seat_three <- general_cleaned |> select(cast_vote_record, precinct, ballot_style, candidate = seat_three)
+
+combined <- union(seat_one, seat_two,)
+combined <-union(combined, seat_three)
+
+
+
+```
+
+##QUESTIONS why are some undervotes and some are NA? should undervote be excluded or included? #getting this weird message, but the code still works
+```{r}
+precinct_vote_counts <- combined |>
+   group_by(precinct, candidate)|>
+   arrange(candidate)|>
+  summarize(votes=n()) |>
+  mutate(precinct= substring(precinct, 2))|>
+  filter(
+    !is.na(candidate),
+    !candidate %in% c("undervote", "overvote", "or write-in:") #questionable
+  ) |>
+  group_by(precinct) |>
+  arrange(desc(votes), .by_group = TRUE) |>
+  mutate(rank = row_number()) |>
+  ungroup()
+
+
+precinct_vote_wide <- precinct_vote_counts |>
+  pivot_wider(
+    names_from = rank,
+    values_from = c(candidate, votes),
+  names_glue = "{.value}_{rank}")|>
+ mutate(
+    across(
+      starts_with("candidate"),
+      ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))
+    ))
+
+  write.csv(precinct_vote_wide, "precinct_vote_wide.csv", row.names = FALSE)
+
+
+  #create a map to represent the percent of voters per precinct who voted for rep-backed candidates versus dem-backed candidates— easier to compare with kamala v trump
+
+
+vote_percent_board <- precinct_vote_counts |>
+  group_by(precinct)|>
+  mutate(
+    across(
+            starts_with("candidate"),
+               ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))),
+    party =
+          case_when(
+              candidate == "Jaime Kiersten Brennan" ~ "*",
+              candidate == "Colt Morningstar Black" ~ "*",
+              candidate == "Janie Monier" ~ "^",
+              candidate == "Josh Bokee" ~ "^",
+              candidate == "Chad King Wilson, Sr." ~ "^",
+              candidate == "Veronica D. Lowe"~ "^"))|>
+        pivot_wider(
+            names_from = rank,
+            values_from = c(candidate, votes, party),
+            names_glue = "{.value}_{rank}")|>
+      mutate(
+           total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5 + votes_6,
+           percent_votes_1 = round((votes_1/total_votes)*100),
+           percent_votes_2 = round((votes_2/total_votes)*100),
+           percent_votes_3 = round((votes_3/total_votes)*100),
+           percent_votes_4 = round((votes_4/total_votes)*100),
+           percent_votes_5 = round((votes_5/total_votes)*100),
+           percent_votes_6 = round((votes_6/total_votes)*100)
+     
+     )
+
+print(vote_percent_board)
+
+  write.csv(vote_percent_board, "vote_percent.csv", row.names = FALSE)
+
+
+```
+
+
+
+```{r}
+
+```
+
+
+
+##display by top candidates
+top candidates:
+winner:
+Jaime Brennan and Colt Morningstar Black were two of the top three vote-getters in Frederick County. Brennan stepped down as chair of the county chapter of Moms for Liberty to run for school board seat;
+
+Jaime Brennan             16.8% 	55,444 (REP/ Moms for liberty former chair)
+Janie Monier              16.7% 	54,976  (DEM)
+Colt Morningstar Black    16.2% 	53,403  (REP)
+Josh Bokee	              16.1% 	53,190. (DEM)
+Chad King Wilson Sr.	    14.8% 	48,860 (DEM)
+Veronica Lowe             12.5% 	41,200 (DEM)
+
+
+NOW PRECINCT MAP BY PRESIDENTIAL RESULTS
+```{r}
+general_president_clean <- general|>
+  select(precinct, president=president_and_vice_president_of_the_united_states_500001630)|>
+  group_by(precinct, president)|>
+     arrange(president)|>
+  summarize(votes=n()) |>
+  mutate(precinct= substring(precinct, 2))|>
+  filter(
+    !is.na(president),
+    !president %in% c("undervote", "overvote", "or write-in:") #questionable
+  ) |>
+  group_by(precinct) |>
+  arrange(desc(votes), .by_group = TRUE) |>
+  mutate(rank = row_number()) |>
+  ungroup()|>
+  mutate(
+    across(
+            starts_with("president"),
+               ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))))|>
+  pivot_wider(
+    names_from = rank,
+    values_from = c(president, votes),
+  names_glue = "{.value}_{rank}")|>
+      mutate(
+           total_votes = votes_1 + votes_2 + votes_3 + votes_4 + votes_5,
+           percent_votes_1 = round((votes_1/total_votes)*100),
+           percent_votes_2 = round((votes_2/total_votes)*100),
+           percent_votes_3 = round((votes_3/total_votes)*100),
+           percent_votes_4 = round((votes_4/total_votes)*100),
+           percent_votes_5 = round((votes_5/total_votes)*100)
+
+     )
+  
+
+write.csv(general_president_clean, "president_vote.csv", row.names = FALSE)
+
+
+harris_win <- general_president_clean |>
+  group_by(precinct)|>
+  sum(
+     president_1 =="Harris-Walz")
+  ) 
+    
+
+
+
+harris_win_versus_mol <- general_president_clean |>
+  left_join( vote_percent_board, by = "precinct")|>
+  select(precinct, president_1, candidate_1, candidate_2, candidate_3)|>
+  filter(president_1=="Harris-Walz")|>
+    filter(
+    candidate_1 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black") | candidate_2 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black") | candidate_3 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black")
+  )
+          
+
+
+```
+
+
+
+
+
+
+
+
+  
