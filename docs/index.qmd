@@ -195,7 +195,7 @@ harris_w_mol<- harris_w_board|>
 
 ```
 
-### Among the precincts to support Harris, 15 of them also voted to elect at least one of the conservative-supported school board candidates.
+### Some 15 precincts supported Harris and conservative-supported school board candidates.
 
 ```{r}
 #| echo: false
