@@ -24,7 +24,20 @@ author:
 <script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
 ```
 
-## The race
+::: {.callout-note collapse="true"}
+# Endorsements
+
+**Although Maryland school board elections are considered non-partisan, the Democratic and Republican parties still endorse certain candidates.**
+
+**Jaime Brennan:** Endorsed by Republicans\
+**Janie Monier:** Endorsed by Democrats\
+**Colt Morningstar Black:** Endorsed by Republicans\
+**Josh Bokee:** Endorsesd by Democrats\
+**Chad King Wilson:** Endorsed by Democrats\
+**Veronica Lowe:** Endorsed by Democrats
+:::
+
+## A close race
 
 In the 2024 Frederick County school board election, the Frederick County Democratic Party endorsed four candidates for three open at-large seats. This decision caused splintering within the party that led to conservative candidates -- Jamie Kiersten Brennan and Colt Morningstar Black -- to take two of the seats.
 
@@ -34,21 +47,27 @@ Janie Monier was the only candidate with support from the Democratic party to wi
 
 Black ran with conservative support. He won 16.2% of the votes -- the third top candidate.
 
-Josh Bokee lost the race with 16.1% of the total votes. Chad King Wilson Sr. also lost with 14.8%. Veronica Lowe won the lowest 12.5%.
+Josh Bokee lost the race with 16.1% of the total votes. Chad King Wilson Sr. also lost with 14.8%. Veronica Lowe earned the least at 12.5%.
 
-In rural precincts that voted overwhelmingly for President Donald Trump's second term, Colt and Brennan performed well.
+</iframe>
 
-In precincts within the City of Frederick, where former Vice President Kamala Harris won an overwhelming majority, candidate Josh Bokee and Veronica Lowe performed well. However, neither candidate earned enough votes to secure standing in the top three.
+```{=html}
+<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+```
 
-It shows that, despite Frederick’s growth in recent years that have skewed its politics to the left, the conservative values in the county still remain strong.
-
-In precincts where Harris narrowly outperformed Trump, the vote for the Democratic-backed candidates split, allowing Brennan and Black to place in the top three.
-
-Monier was the top Democrat-supported candidate in these precincts, earning her a seat on the board.
+<iframe title="Despite winning more collective votes, only one Democrat-supported candidate won" aria-label="Column Chart" id="datawrapper-chart-CEW2g" src="https://datawrapper.dwcdn.net/CEW2g/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="453" data-external="1">
 
 ## The split precincts
 
-Of the 39 precincts in which Harris beat Trump in the 2024 election in Frederick County, 15 also voted to elect at least one of the conservative-supported school board candidates to one of the seats.
+As Frederick County grows in population, the political ideology has begun to shift to the left. Vice President Kamala Harris won the county in the 2024 presidential election with almost 53% of votes, compared to President Donald Trump's 44% of votes.
+
+Their performance was closely tied to the geographics of the county with Harris performing well in and around the City of Frederick and Trump performing well in the rural sides of the county.
+
+In rural precincts that voted overwhelmingly for President Donald Trump's second term, Colt and Brennan performed well.
+
+Democrat-backed candidates performed well in the blue stronghold of the city, but in precincts where Harris narrowly outperformed Trump, the vote for the Democratic-backed candidates split, allowing Brennan and Black to place in the top three.
+
+Harris won 39 of the county's 66 precincts. Among the precincts to support Harris, 15 precincts also voted to elect at least one of the conservative-supported school board candidates to one of the seats.
 
 ```{r}
 #| include: false
@@ -188,11 +207,12 @@ harris_w_mol|>
   datatable()|>
   formatStyle(
     columns = c("candidate_1", "candidate_2", "candidate_3"),
-    backgroundColor = styleEqual(c("Jaime Kiersten Brennan", "Colt Morningstar Black"), c('lightcoral', 'lightcoral'))
+    backgroundColor = styleEqual(c("Jaime Kiersten Brennan", "Colt Morningstar Black"), c('red', 'red'))
   )
 
 ```
 
+It shows that, despite Frederick’s growth in recent years that have skewed its politics to the left, the conservative values in the county still remain strong.
 
 ## Relevance
 
@@ -244,25 +264,3 @@ I would like to have this done around the time of the primary on June 23.
 ## Questions and potholes
 
 Also, I need to confirm with the Board of Elections what I think to be ghost precincts in my map. I need to confirm with them that the geojson files I'm using is conducive to the precinct data from 2024 and hasn't been changed. Based on the metadata from the county site where I downloaded the files, it doesn't seem like it has been changed since 2024, but I need to be sure. I also want to confirm I addressed ballot results listed as overvote, undervote or write-in correctly and that filtering them out as I did doesn't cause in inaccuracies.
-
-## Businesses to watch
-
-![Frederick National Laboratory for Cancer Research](leidos.png)
-
-Frederick is teeming with biotech and medical research companies. The Frederick National Laboratory for Cancer Research is one of the biggest non-governmental employers with 2,440 workers.
-
-The lab is operated by Leidos Biomedical Research, Inc. for the National Cancer Institute. According to its website, Leidos has operated there for over 25 years
-
-Based on EDGAR search results for Leidos Holdings, Inc., which is an American Fortune 500 science, engineering, and information technology company, I found the company's lastest 10-K annual filings from this February. Leidos Inc. itself did not have any 10-K filings in the last five years.
-
-The company, which often serves as a contractor for the U.S. government, listed federal budget changes as a significant risk.
-
-"A decline in the U.S. government budget, changes in spending or budgetary priorities or delays in contract awards may significantly and adversely affect our future revenues and limit our growth prospects."
-
-Specifically in terms of its health technologies I found:
-
-"Health & Civil represented 30% for both fiscal 2025 and 2024 and 27% of total revenues for fiscal 2023."
-
-According to its 8-K from April this year, the company's first quarter profit was 335 million dollars. Down from last year's 363 million dollars, despite earning more revenue, 4.4 billion dollars this year compared to last year's 4.245 billion dollars.
-
-Health in particular brought in 1.19 billion dollars of revenue this first quarter, the same as last year's quarter. "Health profitability was also relatively stable across periods."

@@ -139,7 +139,7 @@ harris_w_board <- harris_win |>
 harris_w_mol<- harris_w_board|> 
   filter(
     candidate_1 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black") | candidate_2 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black") | candidate_3 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black")
-        
+  )
 ```
 
 
