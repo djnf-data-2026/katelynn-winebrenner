@@ -1,5 +1,5 @@
 ---
-title: "How Moms of Liberty-backed candidates secured Frederick County School Board seats"
+title: "Frederick County 2024 school board election precinct analysis"
 format:
   html:
     df-print: kable
@@ -27,7 +27,7 @@ author:
 ::: {.callout-note collapse="true"}
 # Endorsements
 
-**Although Maryland school board elections are considered non-partisan, the Democratic and Republican parties still endorse certain candidates.**
+**Although Maryland school board elections are considered nonpartisan, the Democratic and Republican parties still endorse certain candidates.**
 
 **Jaime Brennan:** Endorsed by Republicans\
 **Janie Monier:** Endorsed by Democrats\
@@ -49,25 +49,19 @@ Black ran with conservative support. He won 16.2% of the votes -- the third top 
 
 Josh Bokee lost the race with 16.1% of the total votes. Chad King Wilson Sr. also lost with 14.8%. Veronica Lowe earned the least at 12.5%.
 
-</iframe>
+<iframe title="Despite winning more collective votes, only one Democrat-supported candidate won" aria-label="Column Chart" id="datawrapper-chart-CEW2g" src="https://datawrapper.dwcdn.net/CEW2g/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="453" data-external="1"></iframe><script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
 
-```{=html}
-<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
-```
+## Split precincts
 
-<iframe title="Despite winning more collective votes, only one Democrat-supported candidate won" aria-label="Column Chart" id="datawrapper-chart-CEW2g" src="https://datawrapper.dwcdn.net/CEW2g/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="453" data-external="1">
+As Frederick County grows in population, the political ideology has started to shift to the left. Vice President Kamala Harris won the county in the 2024 presidential election with almost 53% of votes, compared to President Donald Trump's 44% of votes.
 
-## The split precincts
+Their performance was closely tied to the geography of the county. Harris performed well in and around the City of Frederick, and Trump performed well in the rural sides of the county.
 
-As Frederick County grows in population, the political ideology has begun to shift to the left. Vice President Kamala Harris won the county in the 2024 presidential election with almost 53% of votes, compared to President Donald Trump's 44% of votes.
+In rural precincts that voted overwhelmingly for Trump, Black and Brennan performed well.
 
-Their performance was closely tied to the geographics of the county with Harris performing well in and around the City of Frederick and Trump performing well in the rural sides of the county.
+Democrat-backed candidates performed well in the city, but in precincts where Harris narrowly outperformed Trump, the vote for those candidates split, allowing Brennan and Black to place in the top three.
 
-In rural precincts that voted overwhelmingly for President Donald Trump's second term, Colt and Brennan performed well.
-
-Democrat-backed candidates performed well in the blue stronghold of the city, but in precincts where Harris narrowly outperformed Trump, the vote for the Democratic-backed candidates split, allowing Brennan and Black to place in the top three.
-
-Harris won 39 of the county's 66 precincts. Among the precincts to support Harris, 15 precincts also voted to elect at least one of the conservative-supported school board candidates to one of the seats.
+Harris won 39 of the county's 66 precincts. 
 
 ```{r}
 #| include: false
@@ -201,6 +195,8 @@ harris_w_mol<- harris_w_board|>
 
 ```
 
+### Among the precincts to support Harris, 15 of them also voted to elect at least one of the conservative-supported school board candidates.
+
 ```{r}
 #| echo: false
 harris_w_mol|>
@@ -212,15 +208,28 @@ harris_w_mol|>
 
 ```
 
-It shows that, despite Frederick’s growth in recent years that have skewed its politics to the left, the conservative values in the county still remain strong.
-
 ## Relevance
 
-This story is relevant now because no one has mapped out these votes yet to identify where the splintering happened, and there is another upcoming school board election for the other four seats.
+This demonstrates that, despite Frederick’s growth in recent years that have skewed its politics to the left, the conservative values in the county still remain strong when it comes to local government.
 
-## Audience
+Identifying where the split among voters happened will better contextualize the upcoming school board election for readers, parents and candidates. It will be important to keep an eye on what the Democrats do differently this election season as a result.
 
-My target audience is Frederick county parents and candidates.
+## Previous coverage
+
+From what I’ve seen, there has not been much after-the-fact coverage on this race in particular, other than generalized statewide coverage about the Democrats’ failures in school boards throughout the state from Maryland Matters. There is some other pre-election coverage from Maryland Matters and a feature on the conservative candidates' ideologies from the Capital News Service as well.
+
+
+[Md. Democratic Party targets 'extreme candidates ' in local school board races - Maryland Matters](https://marylandmatters.org/2024/10/17/md-democratic-party-targets-extreme-candidates-in-local-school-board-races/)
+
+[Support for book bans varies in Maryland school board races](https://cnsmaryland.org/2024/10/21/support-for-book-bans-varies-in-maryland-school-board-races/)
+
+ [Half of ‘extreme’ school board candidates targeted by Md. Democratic Party win their races - Maryland Matters](https://marylandmatters.org/2024/11/08/half-of-extreme-school-board-candidates-targeted-by-md-democratic-party-win-races/).
+
+
+## To learn
+I need to do more research on the previous board members, why those seats were open and what the 2024 campaign season was like. I’d also like to research what kind of decisions or changes the new conservative school board members have made since being elected to office and what new candidates are saying about them. I've seen that Black made a controversial comment in 2025, and Frederick County Public Schools released a statement to [disavow](https://www.fcps.org/about/news/board_of_education_statement) what he said.
+
+I want to learn more about what voters are concerned about now compared to then, and I also want to see what candidates this election cycle are saying. Chad King Wilson is running again. Wilson lost in 2024 but was appointed by the County Council to fill an open seat in January. He is running to keep his spot.
 
 ## Sources
 
@@ -228,39 +237,15 @@ Some people I could interview for this story would be:\
 -Frederick Democrats Chair \| Mari Lee \| (301) 898-2513 \| info\@frederickdemocrats.org\
 -Moms for Liberty Chapter Chair \| Tiffany Noble \| Tiffany.noble0820\@gmail.com\
 -Frederick County PTA President \| Najlaa Richard \| president\@frederickpta.org\
--School board candidate Chad Wilson, Sr. (lost in 2024, running again this cycle)\
--I would also like to go to go to these purple precincts to find someone who voted for Harris in 2024 but also voted for a conservative school board member to interview and to hear their decision making process
-
-## Potential impact
-
-The potential impact of this story would be to reveal key areas where splintering occurred to inform candidates and voters where the discrepancies were to increase voter participation and civic engagement in these areas.
-
-## Interest
-
-This story was particularly surprising to me because it showcases the impact of partisanship within the county school board, which is technically considered nonpartisan. The extreme ideological differences between the candidates is also intriguing to me, particularly because the former Frederick County Moms of Liberty stepped down to run for a seat and won. I’m also interested in this story because it shows that, despite Frederick’s growth in recent years that have skewed its politics to the left, the conservative values in the county still remain strong.
-
-## Previous coverage
-
-From what I’ve seen, there has not been much coverage on this race in particular, other than generalized statewide coverage about the Democrats’ failures in school boards throughout the state from Maryland Matters.
-
-**LINKS DIDNT DISPLAY TO THESE STORIES** Half of ‘extreme’ school board candidates targeted by Md. Democratic Party win their races - Maryland Matters
-
-**LINKS DIDNT DISPLAY TO THESE STORIES** Md. Democratic Party targets 'extreme candidates ' in local school board races - Maryland Matters
-
-## Visuals
-
-I've already created a choropleth map of precincts that display where the splintering occurred. Comparing and contrasting that map to a map of 2024 election results would help contextualize these areas as leaning left or right as well. I'd like to include an extra html button in those maps to click back from one to the other as Adam Marton demonstrated for the final version or find a way to embed the maps side by side, so viewers can more easily compare presidential results to school board results.
-
-I'd still like to create a bar graph of sorts to visualize the total votes each candidate received county wide. I will do the same with the the Harris v. Trump race.
-
-## To learn
-
-As for other information still to gather, I need to do more research on the previous election members, why those seats were open and what the 2024 campaign season was like. I’d also like to research what kind of decisions or changes the new conservative school board members have made since being elected to office and what new candidates are saying about them. I also want to see what candidates this election cycle are saying.
-
-## Expected completion
-
-I would like to have this done around the time of the primary on June 23.
+-School board member/candidate Chad Wilson
+-I would also like to go to go to these split precincts to find someone who voted for Harris in 2024 but also voted for a conservative school board member to interview about their decision making process.
 
 ## Questions and potholes
 
-Also, I need to confirm with the Board of Elections what I think to be ghost precincts in my map. I need to confirm with them that the geojson files I'm using is conducive to the precinct data from 2024 and hasn't been changed. Based on the metadata from the county site where I downloaded the files, it doesn't seem like it has been changed since 2024, but I need to be sure. I also want to confirm I addressed ballot results listed as overvote, undervote or write-in correctly and that filtering them out as I did doesn't cause in inaccuracies.
+I need to confirm with the Maryland State Board of Elections what I think to be ghost precincts in my map. I need to confirm with them that the geojson file I'm using is conducive to the precinct data from 2024 and hasn't been changed. Based on the metadata from the county site where I downloaded the files, it doesn't seem like it has been changed since 2024, but I need to be sure. 
+
+I also want to confirm I addressed ballot results listed as overvote, undervote or write-in correctly and that filtering them out as I did doesn't cause in inaccuracies. When I filter them out, my results by candidate are slightly different to the ones listed on the official elections board website.
+
+## Goal for completion
+
+I would like to have this done, at the latest, by the time of the primary on June 23 for timeliness.
