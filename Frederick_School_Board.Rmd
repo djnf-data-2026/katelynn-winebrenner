@@ -39,6 +39,15 @@ school_board <-union(school_board, seat_three)
 
 #SCHOOL BOARD ANALYSIS BY PRECINCT
 ```{r}
+
+
+school_board_filter <- school_board|>
+  filter(
+    !is.na(candidate),
+    !candidate %in% c("undervote", "overvote", "or write-in:") #needs reporting to verify accuracy
+  ) 
+
+
 ranked_school_candidates <- school_board |>
    group_by(precinct, candidate)|>
    arrange(candidate)|>
@@ -141,6 +150,21 @@ harris_w_mol<- harris_w_board|>
     candidate_1 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black") | candidate_2 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black") | candidate_3 %in% c("Jaime Kiersten Brennan", "Colt Morningstar Black")
   )
 ```
+
+## TOTAL SCHOOL BOARD VOTES BY CANDIDATE BAR CHART
+```{r}
+school_board_total <- school_board |>
+  count(candidate, name = "votes") |>
+  arrange(desc(votes))|>
+   mutate(
+    across(
+      starts_with("candidate"),
+      ~ trimws(gsub("\\s*\\([^)]*\\)", "",.x))
+    ))
+
+write_csv(school_board_total, "school_board_total.csv")
+```
+
 
 
 
