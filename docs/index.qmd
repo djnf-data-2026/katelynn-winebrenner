@@ -49,7 +49,13 @@ Black ran with conservative support. He won 16.2% of the votes -- the third top 
 
 Josh Bokee lost the race with 16.1% of the total votes. Chad King Wilson Sr. also lost with 14.8%. Veronica Lowe earned the least at 12.5%.
 
-<iframe title="Despite winning more collective votes, only one Democrat-supported candidate won" aria-label="Column Chart" id="datawrapper-chart-CEW2g" src="https://datawrapper.dwcdn.net/CEW2g/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="453" data-external="1"></iframe><script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+<iframe title="Despite winning more collective votes, only one Democrat-supported candidate won" aria-label="Column Chart" id="datawrapper-chart-CEW2g" src="https://datawrapper.dwcdn.net/CEW2g/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="453" data-external="1">
+
+</iframe>
+
+```{=html}
+<script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+```
 
 ## Split precincts
 
@@ -61,7 +67,7 @@ In rural precincts that voted overwhelmingly for Trump, Black and Brennan perfor
 
 Democrat-backed candidates performed well in the city, but in precincts where Harris narrowly outperformed Trump, the vote for those candidates split, allowing Brennan and Black to place in the top three.
 
-Harris won 39 of the county's 66 precincts. 
+Harris won 39 of the county's 66 precincts.
 
 ```{r}
 #| include: false
@@ -218,13 +224,11 @@ Identifying where the split among voters happened will better contextualize the 
 
 From what I’ve seen, there has not been much after-the-fact coverage on this race in particular, other than generalized statewide coverage about the Democrats’ failures in school boards throughout the state from Maryland Matters. There is some other pre-election coverage from Maryland Matters and a feature on the conservative candidates' ideologies from the Capital News Service as well.
 
-
 [Md. Democratic Party targets 'extreme candidates ' in local school board races - Maryland Matters](https://marylandmatters.org/2024/10/17/md-democratic-party-targets-extreme-candidates-in-local-school-board-races/)
 
 [Support for book bans varies in Maryland school board races](https://cnsmaryland.org/2024/10/21/support-for-book-bans-varies-in-maryland-school-board-races/)
 
- [Half of ‘extreme’ school board candidates targeted by Md. Democratic Party win their races - Maryland Matters](https://marylandmatters.org/2024/11/08/half-of-extreme-school-board-candidates-targeted-by-md-democratic-party-win-races/).
-
+[Half of ‘extreme’ school board candidates targeted by Md. Democratic Party win their races - Maryland Matters](https://marylandmatters.org/2024/11/08/half-of-extreme-school-board-candidates-targeted-by-md-democratic-party-win-races/).
 
 ## To learn
 
@@ -238,12 +242,11 @@ Some people I could interview for this story would be:\
 -Frederick Democrats Chair \| Mari Lee \| (301) 898-2513 \| info\@frederickdemocrats.org\
 -Moms for Liberty Chapter Chair \| Tiffany Noble \| Tiffany.noble0820\@gmail.com\
 -Frederick County PTA President \| Najlaa Richard \| president\@frederickpta.org\
--School board member/candidate Chad Wilson
--I would also like to go to go to these split precincts to find someone who voted for Harris in 2024 but also voted for a conservative school board member to interview about their decision making process.
+-School board member/candidate Chad Wilson -I would also like to go to go to these split precincts to find someone who voted for Harris in 2024 but also voted for a conservative school board member to interview about their decision making process.
 
 ## Questions and potholes
 
-I need to confirm with the Maryland State Board of Elections what I think to be ghost precincts in my map. I need to confirm with them that the geojson file I'm using is conducive to the precinct data from 2024 and hasn't been changed. Based on the metadata from the county site where I downloaded the files, it doesn't seem like it has been changed since 2024, but I need to be sure. 
+I need to confirm with the Maryland State Board of Elections what I think to be ghost precincts in my map. I need to confirm with them that the geojson file I'm using is conducive to the precinct data from 2024 and hasn't been changed. Based on the metadata from the county site where I downloaded the files, it doesn't seem like it has been changed since 2024, but I need to be sure.
 
 I also want to confirm I addressed ballot results listed as overvote, undervote or write-in correctly and that filtering them out as I did doesn't cause in inaccuracies. When I filter them out, my results by candidate are slightly different to the ones listed on the official elections board website.
 
